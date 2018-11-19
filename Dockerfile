@@ -17,11 +17,13 @@ RUN apt-get update \
 	&& chmod 777 /opt/semoss-artifacts/artifacts/scripts/*.sh \
 	&& apt-get install -y curl \
 	&& /opt/semoss-artifacts/artifacts/scripts/update_latest_dev.sh \
-	&& apt install -y fuse \
+	&& apt-get install -y fuse \
+	&& apt-get install -y man-db \
 	&& curl https://rclone.org/install.sh | bash \
 	&& wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
 	&& echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list \
-	&& apt install -y google-chrome-stable \
+	&& apt-get update \
+	&& apt-get install -y google-chrome-stable \
 	&& chmod 777 /opt/semosshome/config/Chromedriver/* 
 
 WORKDIR /opt/semoss-artifacts/artifacts/scripts
