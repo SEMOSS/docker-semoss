@@ -1,4 +1,4 @@
-FROM tbanach/docker-r
+FROM tbanach/docker-r-python
 
 LABEL maintainer="semoss@semoss.org"
 
