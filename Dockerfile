@@ -3,7 +3,7 @@ FROM tbanach/docker-r-python
 LABEL maintainer="semoss@semoss.org"
 
 ENV PATH=$PATH:/opt/semoss-artifacts/artifacts/scripts
-ENV LD_LIBRARY_PATH=/usr/lib:/usr/local/lib/R/site-library/rJava/jri
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib:/usr/local/lib/R/site-library/rJava/jri
 ENV R_HOME=/usr/lib/R
 
 # Create semosshome
