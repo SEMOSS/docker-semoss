@@ -20,13 +20,13 @@ RUN apt-get update \
 	&& mkdir /opt/semosshome \
 	&& cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
 	&& chmod 777 /opt/semoss-artifacts/artifacts/scripts/*.sh \
-	&& /opt/semoss-artifacts/artifacts/scripts/update_latest_dev.sh \
+	&& /opt/semoss-artifacts/artifacts/scripts/update_latest_prod.sh \
 	&& wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
 	&& echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list \
 	&& apt-get update \
 	&& apt-get install -y google-chrome-stable \
 	&& chmod 777 /opt/semosshome/config/Chromedriver/* \
-	&& echo "export LD_PRELOAD=/usr/lib/python2.7/config-x86_64-linux-gnu/libpython2.7.so" >> /opt/apache-tomcat-8.0.41/bin/setenv.sh
+	&& echo "export LD_PRELOAD=/usr/lib/python3.5/config-3.5m-x86_64-linux-gnu/libpython3.5.so" >> /opt/apache-tomcat-8.0.41/bin/setenv.sh
 
 WORKDIR /opt/semoss-artifacts/artifacts/scripts
 
