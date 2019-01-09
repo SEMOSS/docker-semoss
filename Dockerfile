@@ -20,7 +20,7 @@ RUN apt-get update \
 	&& mkdir /opt/semosshome \
 	&& cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
 	&& chmod 777 /opt/semoss-artifacts/artifacts/scripts/*.sh \
-	&& /opt/semoss-artifacts/artifacts/scripts/update_latest_prod.sh \
+	&& /opt/semoss-artifacts/artifacts/scripts/update_latest_dev.sh \
 	&& wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
 	&& echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list \
 	&& apt-get update \
