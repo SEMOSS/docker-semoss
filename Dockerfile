@@ -26,7 +26,7 @@ RUN apt-get update \
 	&& apt-get update \
 	&& apt-get install -y google-chrome-stable \
 	&& chmod 777 /opt/semosshome/config/Chromedriver/* \
-	&& echo "export LD_PRELOAD=/usr/lib/python2.7/config-x86_64-linux-gnu/libpython2.7.so" >> /opt/apache-tomcat-8.0.41/bin/setenv.sh
+	&& echo "export LD_PRELOAD=/usr/lib/python3.5/config-3.5m-x86_64-linux-gnu/libpython3.5.so" >> /opt/apache-tomcat-8.0.41/bin/setenv.sh
 
 WORKDIR /opt/semoss-artifacts/artifacts/scripts
 
