@@ -17,6 +17,7 @@ RUN apt-get update \
 	&& wget https://downloads.rclone.org/v1.45/rclone-v1.45-linux-amd64.deb \
 	&& dpkg -i rclone-v1.45-linux-amd64.deb \
 	&& apt-get install -f \
+	&& rm rclone-v1.45-linux-amd64.deb \
 	&& mkdir /opt/semosshome \
 	&& cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
 	&& chmod 777 /opt/semoss-artifacts/artifacts/scripts/*.sh \
