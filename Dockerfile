@@ -14,9 +14,9 @@ ENV R_HOME=/usr/lib/R
 # Set LD_PRELOAD on Tomcat
 RUN apt-get update \
 	&& apt-get install -y curl \
-	&& apt-get install -y fuse \
-	&& apt-get install -y man-db \
-	&& curl https://rclone.org/install.sh | bash \
+	&& wget https://downloads.rclone.org/v1.45/rclone-v1.45-linux-amd64.deb \
+	&& dpkg -i rclone-v1.45-linux-amd64.deb \
+	&& apt-get install -f \
 	&& mkdir /opt/semosshome \
 	&& cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
 	&& chmod 777 /opt/semoss-artifacts/artifacts/scripts/*.sh \
