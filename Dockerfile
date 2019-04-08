@@ -14,6 +14,7 @@ ENV R_HOME=/usr/lib/R
 # Set LD_PRELOAD on Tomcat
 RUN apt-get update \
 	&& apt-get install -y curl \
+	&& apt-get install -y lsof \
 	&& wget https://downloads.rclone.org/v1.45/rclone-v1.45-linux-amd64.deb \
 	&& dpkg -i rclone-v1.45-linux-amd64.deb \
 	&& apt-get install -f \
