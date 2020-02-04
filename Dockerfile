@@ -1,4 +1,4 @@
-FROM semoss/docker-r-python
+FROM semoss/docker-r-python:R3.6.2-debian10
 
 LABEL maintainer="semoss@semoss.org"
 
