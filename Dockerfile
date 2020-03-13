@@ -1,10 +1,11 @@
-FROM semoss/docker-r-python
+FROM semoss/docker-r-python:user
 
 LABEL maintainer="semoss@semoss.org"
 
-ENV PATH=$PATH:/opt/semoss-artifacts/artifacts/scripts
-ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib:/usr/local/lib/R/site-library/rJava/jri
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/semoss/R/x86_64-pc-linux-gnu-library/3.5/rJava/jri
 ENV R_HOME=/usr/lib/R
+ENV SEMOSS_BASE=/home/semoss
+#ENV PATH=$PATH:$SEMOSS_BASE/semoss-artifacts/artifacts/scripts
 
 # Install Rclone
 # Create semosshome
@@ -12,25 +13,31 @@ ENV R_HOME=/usr/lib/R
 # Update latest dev code
 # Install Chrome
 # Set LD_PRELOAD on Tomcat
-RUN apt-get update \
-	&& apt-get install -y curl \
-	&& apt-get install -y lsof \
+RUN sudo apt-get update \
+	&& sudo apt-get install -y curl \
+	&& sudo apt-get install -y lsof \
+	&& cd $SEMOSS_BASE \
 	&& wget https://downloads.rclone.org/v1.45/rclone-v1.45-linux-amd64.deb \
-	&& dpkg -i rclone-v1.45-linux-amd64.deb \
-	&& apt-get install -f \
+	&& sudo dpkg -i rclone-v1.45-linux-amd64.deb \
+	&& sudo apt-get install -f \
 	&& rm rclone-v1.45-linux-amd64.deb \
-	&& mkdir /opt/semosshome \
-	&& cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
-	&& chmod 777 /opt/semoss-artifacts/artifacts/scripts/*.sh \
-	&& /opt/semoss-artifacts/artifacts/scripts/update_latest_dev.sh \
-	&& wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
-	&& echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list \
-	&& apt-get update \
-	&& apt-get install -y google-chrome-stable \
-	&& chmod 777 /opt/semosshome/config/Chromedriver/* \
+	&& mkdir $SEMOSS_BASE/semosshome \
+	&& cd $SEMOSS_BASE && git clone https://github.com/SEMOSS/semoss-artifacts \
+	&& cd semoss-artifacts \ 
+	&& git checkout sudoless \
+	&& cd $SEMOSS_BASE \
+	&& chmod 777 $SEMOSS_BASE/semoss-artifacts/artifacts/scripts/*.sh \
+	&& $SEMOSS_BASE/semoss-artifacts/artifacts/scripts/update_latest_dev.sh \
+	#&& wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
+	#&& echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list \
+	#&& apt-get update \
+	#&& apt-get install -y google-chrome-stable \
+	#&& chmod 777 /opt/semosshome/config/Chromedriver/* \
 	&& echo "export LD_PRELOAD=/usr/lib/python3.5/config-3.5m-x86_64-linux-gnu/libpython3.5.so" >> $TOMCAT_HOME/bin/setenv.sh \
 	&& cp /usr/lib/jvm/java-8-openjdk-amd64/lib/tools.jar $TOMCAT_HOME/lib
 
-WORKDIR /opt/semoss-artifacts/artifacts/scripts
+# RUN sudo sed -i '$ d' /etc/sudoers
+
+WORKDIR /home/semoss
 
 CMD ["start.sh"]
