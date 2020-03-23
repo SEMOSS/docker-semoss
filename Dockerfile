@@ -29,7 +29,7 @@ RUN apt-get update \
 	&& apt-get install -y google-chrome-stable \
 	&& chmod 777 /opt/semosshome/config/Chromedriver/* \
 	&& echo "export LD_PRELOAD=/usr/lib/python3.7/config-3.7m-x86_64-linux-gnu/libpython3.7.so" >> $TOMCAT_HOME/bin/setenv.sh \
-	&& cp /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/lib/tools.jar $TOMCAT_HOME/lib
+	&& cp /usr/lib/jvm/zulu8.44.0.13-ca-fx-jdk8.0.242-linux_x64/lib/tools.jar $TOMCAT_HOME/lib
 
 WORKDIR /opt/semoss-artifacts/artifacts/scripts
 
