@@ -12,7 +12,7 @@ ENV R_HOME=/usr/lib/R
 # Update latest dev code
 # Install Chrome
 # Set LD_PRELOAD on Tomcat
-RUN apt-get update \
+RUN apt-get update -y \
 	&& apt-get install -y curl \
 	&& apt-get install -y lsof \
 	&& wget https://downloads.rclone.org/v1.45/rclone-v1.45-linux-amd64.deb \
