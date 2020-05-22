@@ -15,10 +15,10 @@ ENV R_HOME=/usr/lib/R
 RUN apt-get update \
 	&& apt-get install -y curl \
 	&& apt-get install -y lsof \
-	&& wget https://downloads.rclone.org/v1.45/rclone-v1.45-linux-amd64.deb \
-	&& dpkg -i rclone-v1.45-linux-amd64.deb \
+	&& wget https://downloads.rclone.org/v1.47.0/rclone-v1.47.0-linux-arm64.deb \
+	&& dpkg -i rclone-v1.47.0-linux-amd64.deb \
 	&& apt-get install -f \
-	&& rm rclone-v1.45-linux-amd64.deb \
+	&& rm rclone-v1.47.0-linux-amd64.deb \
 	&& mkdir /opt/semosshome \
 	&& cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
 	&& chmod 777 /opt/semoss-artifacts/artifacts/scripts/*.sh \
