@@ -30,6 +30,7 @@ RUN	wget https://downloads.rclone.org/v1.47.0/rclone-v1.47.0-linux-amd64.deb \
 	&& dpkg -i rclone-v1.47.0-linux-amd64.deb \
 	&& apt-get install -f \
 	&& rm rclone-v1.47.0-linux-amd64.deb \
+	&& chmod 777 /usr/bin/rclone \
 	&& mkdir /opt/semosshome \
 	&& mkdir $TOMCAT_HOME/webapps/Monolith \
 	&& mkdir $TOMCAT_HOME/webapps/SemossWeb \
@@ -51,6 +52,7 @@ COPY --from=mavenpuller $TOMCAT_HOME/webapps/Monolith $TOMCAT_HOME/webapps/Monol
 COPY --from=mavenpuller $TOMCAT_HOME/webapps/SemossWeb $TOMCAT_HOME/webapps/SemossWeb
 COPY --from=mavenpuller /opt/semoss-artifacts/ver.txt /opt/semoss-artifacts/ver.txt
 
+RUN chmod -R 777 /opt
 
 WORKDIR /opt/semoss-artifacts/artifacts/scripts
 
