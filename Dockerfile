@@ -6,7 +6,7 @@ ADD "https://www.random.org/cgi-bin/randbyte?nbytes=10&format=h" skipcache
 RUN apt-get update -y \
 	&& apt-get install -y curl lsof \
 	&& mkdir /opt/semosshome \
-    && cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
+        && cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
 	&& chmod 777 /opt/semoss-artifacts/artifacts/scripts/*.sh \
 	&& /opt/semoss-artifacts/artifacts/scripts/update_latest_dev.sh \
 	&& chmod 777 /opt/semosshome/config/Chromedriver/*
@@ -30,6 +30,7 @@ RUN	wget https://downloads.rclone.org/v1.47.0/rclone-v1.47.0-linux-amd64.deb \
 	&& dpkg -i rclone-v1.47.0-linux-amd64.deb \
 	&& apt-get install -f \
 	&& rm rclone-v1.47.0-linux-amd64.deb \
+	&& chmod 777 /usr/bin/rclone \
 	&& mkdir /opt/semosshome \
 	&& mkdir $TOMCAT_HOME/webapps/Monolith \
 	&& mkdir $TOMCAT_HOME/webapps/SemossWeb \
