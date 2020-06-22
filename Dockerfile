@@ -2,7 +2,7 @@ FROM semoss/docker-r-python:R3.6.2-debian10 as base
 
 FROM semoss/docker-tomcat:debian10 as mavenpuller
 
-ADD "https://www.random.org/cgi-bin/randbyte?nbytes=10&format=h" skipcache
+ADD "http://date.jsontest.com/" skipcache
 RUN apt-get update -y \
 	&& apt-get install -y curl lsof \
 	&& mkdir /opt/semosshome \
