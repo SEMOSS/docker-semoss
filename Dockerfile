@@ -1,4 +1,17 @@
-FROM semoss/docker-r-python
+FROM semoss/docker-r-python:R3.6.2-debian10 as base
+
+FROM semoss/docker-tomcat:debian10 as mavenpuller
+
+ADD "http://date.jsontest.com/" skipcache
+RUN apt-get update -y \
+	&& apt-get install -y curl lsof \
+	&& mkdir /opt/semosshome \
+        && cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
+	&& chmod 777 /opt/semoss-artifacts/artifacts/scripts/*.sh \
+	&& /opt/semoss-artifacts/artifacts/scripts/update_latest_dev.sh \
+	&& chmod 777 /opt/semosshome/config/Chromedriver/*
+
+FROM base
 
 LABEL maintainer="semoss@semoss.org"
 
@@ -12,24 +25,48 @@ ENV R_HOME=/usr/lib/R
 # Update latest dev code
 # Install Chrome
 # Set LD_PRELOAD on Tomcat
-RUN apt-get update \
-	&& apt-get install -y curl \
-	&& apt-get install -y lsof \
-	&& wget https://downloads.rclone.org/v1.47.0/rclone-v1.47.0-linux-amd64.deb \
+
+RUN	wget https://downloads.rclone.org/v1.47.0/rclone-v1.47.0-linux-amd64.deb \
 	&& dpkg -i rclone-v1.47.0-linux-amd64.deb \
 	&& apt-get install -f \
 	&& rm rclone-v1.47.0-linux-amd64.deb \
+	&& chmod 777 /usr/bin/rclone \
 	&& mkdir /opt/semosshome \
-	&& cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
-	&& chmod 777 /opt/semoss-artifacts/artifacts/scripts/*.sh \
-	&& /opt/semoss-artifacts/artifacts/scripts/update_latest_dev.sh \
-	&& wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
+	&& mkdir $TOMCAT_HOME/webapps/Monolith \
+	&& mkdir $TOMCAT_HOME/webapps/SemossWeb \
+	&& echo "export LD_PRELOAD=/usr/lib/python3.7/config-3.7m-x86_64-linux-gnu/libpython3.7.so" >> $TOMCAT_HOME/bin/setenv.sh \
+	&& cp /usr/lib/jvm/zulu8.44.0.13-ca-fx-jdk8.0.242-linux_x64/lib/tools.jar $TOMCAT_HOME/lib
+
+RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
 	&& echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list \
 	&& apt-get update \
-	&& apt-get install -y google-chrome-stable \
-	&& chmod 777 /opt/semosshome/config/Chromedriver/* \
-	&& echo "export LD_PRELOAD=/usr/lib/python3.5/config-3.5m-x86_64-linux-gnu/libpython3.5.so" >> $TOMCAT_HOME/bin/setenv.sh \
-	&& cp /usr/lib/jvm/java-8-openjdk-amd64/lib/tools.jar $TOMCAT_HOME/lib
+	&& apt-get install -y google-chrome-stable
+
+RUN apt-get update -y \
+	&& apt-get install -y curl lsof \
+	&& cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
+	&& chmod 777 /opt/semoss-artifacts/artifacts/scripts/*.sh
+
+COPY --from=mavenpuller /opt/semosshome /opt/semosshome
+COPY --from=mavenpuller $TOMCAT_HOME/webapps/Monolith $TOMCAT_HOME/webapps/Monolith
+COPY --from=mavenpuller $TOMCAT_HOME/webapps/SemossWeb $TOMCAT_HOME/webapps/SemossWeb
+COPY --from=mavenpuller /opt/semoss-artifacts/ver.txt /opt/semoss-artifacts/ver.txt
+
+
+WORKDIR /opt/semoss-artifacts/artifacts/scripts
+
+CMD ["start.sh"]
+
+RUN apt-get update -y \
+	&& apt-get install -y curl lsof \
+	&& cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
+	&& chmod 777 /opt/semoss-artifacts/artifacts/scripts/*.sh
+
+COPY --from=mavenpuller /opt/semosshome /opt/semosshome
+COPY --from=mavenpuller $TOMCAT_HOME/webapps/Monolith $TOMCAT_HOME/webapps/Monolith
+COPY --from=mavenpuller $TOMCAT_HOME/webapps/SemossWeb $TOMCAT_HOME/webapps/SemossWeb
+COPY --from=mavenpuller /opt/semoss-artifacts/ver.txt /opt/semoss-artifacts/ver.txt
+
 
 WORKDIR /opt/semoss-artifacts/artifacts/scripts
 
