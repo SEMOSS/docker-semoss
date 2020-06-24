@@ -56,3 +56,18 @@ COPY --from=mavenpuller /opt/semoss-artifacts/ver.txt /opt/semoss-artifacts/ver.
 WORKDIR /opt/semoss-artifacts/artifacts/scripts
 
 CMD ["start.sh"]
+
+RUN apt-get update -y \
+	&& apt-get install -y curl lsof \
+	&& cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
+	&& chmod 777 /opt/semoss-artifacts/artifacts/scripts/*.sh
+
+COPY --from=mavenpuller /opt/semosshome /opt/semosshome
+COPY --from=mavenpuller $TOMCAT_HOME/webapps/Monolith $TOMCAT_HOME/webapps/Monolith
+COPY --from=mavenpuller $TOMCAT_HOME/webapps/SemossWeb $TOMCAT_HOME/webapps/SemossWeb
+COPY --from=mavenpuller /opt/semoss-artifacts/ver.txt /opt/semoss-artifacts/ver.txt
+
+
+WORKDIR /opt/semoss-artifacts/artifacts/scripts
+
+CMD ["start.sh"]
