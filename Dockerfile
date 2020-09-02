@@ -1,6 +1,6 @@
-FROM semoss/docker-r-python:R3.6.2-debian10 as base
+FROM semoss/docker-r-python:R3.6.1-debian10.5 as base
 
-FROM semoss/docker-tomcat:debian10 as mavenpuller
+FROM semoss/docker-tomcat:9.0.37 as mavenpuller
 
 ADD "http://worldtimeapi.org/api/timezone/America/New_York" skipcache
 RUN apt-get update -y \
