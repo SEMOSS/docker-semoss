@@ -35,7 +35,7 @@ RUN	wget https://downloads.rclone.org/v1.47.0/rclone-v1.47.0-linux-amd64.deb \
 	&& chmod 777 /usr/bin/rclone \
 	&& mkdir /opt/semosshome \
 #TEMP
-	&& mv /opt/apache-tomcat-9.0. /opt/apache-tomcat-9.0.37
+	&& mv /opt/apache-tomcat-9.0. /opt/apache-tomcat-9.0.37 \
 # end TEMP
 	&& mkdir $TOMCAT_HOME/webapps/Monolith \
 	&& mkdir $TOMCAT_HOME/webapps/SemossWeb \
