@@ -34,6 +34,9 @@ RUN	wget https://downloads.rclone.org/v1.47.0/rclone-v1.47.0-linux-amd64.deb \
 	&& rm rclone-v1.47.0-linux-amd64.deb \
 	&& chmod 777 /usr/bin/rclone \
 	&& mkdir /opt/semosshome \
+#TEMP
+	&& mv /opt/apache-tomcat-9.0. /opt/apache-tomcat-9.0.37
+# end TEMP
 	&& mkdir $TOMCAT_HOME/webapps/Monolith \
 	&& mkdir $TOMCAT_HOME/webapps/SemossWeb \
 	&& echo "export LD_PRELOAD=/usr/lib/python3.7/config-3.7m-x86_64-linux-gnu/libpython3.7.so" >> $TOMCAT_HOME/bin/setenv.sh \
