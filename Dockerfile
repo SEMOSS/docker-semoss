@@ -3,7 +3,7 @@ ENV TOMCAT_HOME=/opt/apache-tomcat-9.0.37
 
 FROM semoss/docker-tomcat:9.0.37 as mavenpuller
 
-ADD "http://worldtimeapi.org/api/timezone/America/New_York" skipcache
+#ADD "http://worldtimeapi.org/api/timezone/America/New_York" skipcache
 RUN apt-get update -y \
 	&& apt-get install -y curl lsof \
 	&& mkdir /opt/semosshome \
@@ -59,11 +59,15 @@ COPY --from=mavenpuller $TOMCAT_HOME/webapps/SemossWeb $TOMCAT_HOME/webapps/Semo
 COPY --from=mavenpuller /opt/semoss-artifacts/ver.txt /opt/semoss-artifacts/ver.txt
 
 RUN chmod -R 777 /opt
+RUN chmod -R 777 /usr/bin/rclone
 
+RUN cp /usr/bin/rclone $JAVA_HOME/bin
+RUN cp /usr/bin/rclone /opt/semosshome
 USER 1001
 
 WORKDIR /opt/semoss-artifacts/artifacts/scripts
 
+ENV PATH=$PATH:$TOMCAT_HOME/bin:/usr/bin/rclone
 ENV TOMCAT_HOME=/opt/apache-tomcat-9.0.37
 
-CMD ["start.sh"]
+CMD ["/opt/apache-tomcat-9.0.37/bin/start.sh"]
