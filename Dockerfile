@@ -1,5 +1,4 @@
 FROM semoss/docker-r-python:R3.6.1-debian10.5 as base
-ENV TOMCAT_HOME=/opt/apache-tomcat-9.0.37
 
 FROM semoss/docker-tomcat:9.0.37 as mavenpuller
 
@@ -19,7 +18,6 @@ LABEL maintainer="semoss@semoss.org"
 ENV PATH=$PATH:/opt/semoss-artifacts/artifacts/scripts
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib:/usr/local/lib/R/site-library/rJava/jri
 ENV R_HOME=/usr/lib/R
-ENV TOMCAT_HOME=/opt/apache-tomcat-9.0.37
 
 # Install Rclone
 # Create semosshome
@@ -34,9 +32,6 @@ RUN	wget https://downloads.rclone.org/v1.47.0/rclone-v1.47.0-linux-amd64.deb \
 	&& rm rclone-v1.47.0-linux-amd64.deb \
 	&& chmod 777 /usr/bin/rclone \
 	&& mkdir /opt/semosshome \
-#TEMP
-	&& mv /opt/apache-tomcat-9.0. /opt/apache-tomcat-9.0.37 \
-# end TEMP
 	&& mkdir $TOMCAT_HOME/webapps/Monolith \
 	&& mkdir $TOMCAT_HOME/webapps/SemossWeb \
 	&& echo "export LD_PRELOAD=/usr/lib/python3.7/config-3.7m-x86_64-linux-gnu/libpython3.7.so" >> $TOMCAT_HOME/bin/setenv.sh \
@@ -58,16 +53,6 @@ COPY --from=mavenpuller $TOMCAT_HOME/webapps/Monolith $TOMCAT_HOME/webapps/Monol
 COPY --from=mavenpuller $TOMCAT_HOME/webapps/SemossWeb $TOMCAT_HOME/webapps/SemossWeb
 COPY --from=mavenpuller /opt/semoss-artifacts/ver.txt /opt/semoss-artifacts/ver.txt
 
-RUN chmod -R 777 /opt
-RUN chmod -R 777 /usr/bin/rclone
-
-RUN cp /usr/bin/rclone $JAVA_HOME/bin
-RUN cp /usr/bin/rclone /opt/semosshome
-USER 1001
-
 WORKDIR /opt/semoss-artifacts/artifacts/scripts
-
-ENV PATH=$PATH:$TOMCAT_HOME/bin:/usr/bin/rclone
-ENV TOMCAT_HOME=/opt/apache-tomcat-9.0.37
 
 CMD ["/opt/apache-tomcat-9.0.37/bin/start.sh"]
