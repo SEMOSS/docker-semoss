@@ -1,5 +1,4 @@
 FROM semoss/docker-r-python:R3.6.1-debian10.5 as base
-ENV TOMCAT_HOME=/opt/apache-tomcat-9.0.37
 
 FROM semoss/docker-tomcat:9.0.37 as mavenpuller
 
@@ -19,7 +18,6 @@ LABEL maintainer="semoss@semoss.org"
 ENV PATH=$PATH:/opt/semoss-artifacts/artifacts/scripts
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib:/usr/local/lib/R/site-library/rJava/jri
 ENV R_HOME=/usr/lib/R
-ENV TOMCAT_HOME=/opt/apache-tomcat-9.0.37
 
 # Install Rclone
 # Create semosshome
@@ -58,8 +56,6 @@ COPY --from=mavenpuller /opt/semoss-artifacts/ver.txt /opt/semoss-artifacts/ver.
 RUN chmod -R 777 /opt
 RUN chmod -R 777 /usr/bin/rclone
 
-RUN cp /usr/bin/rclone $JAVA_HOME/bin
-RUN cp /usr/bin/rclone /opt/semosshome
 USER 1001
 
 WORKDIR /opt/semoss-artifacts/artifacts/scripts
