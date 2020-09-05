@@ -53,6 +53,8 @@ COPY --from=mavenpuller $TOMCAT_HOME/webapps/Monolith $TOMCAT_HOME/webapps/Monol
 COPY --from=mavenpuller $TOMCAT_HOME/webapps/SemossWeb $TOMCAT_HOME/webapps/SemossWeb
 COPY --from=mavenpuller /opt/semoss-artifacts/ver.txt /opt/semoss-artifacts/ver.txt
 
+COPY terajdbc4.jar $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib
+
 RUN chmod -R 777 /opt
 RUN chmod -R 777 /usr/bin/rclone
 
