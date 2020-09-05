@@ -1,4 +1,4 @@
-FROM semoss/docker-r-python:R3.6.1-debian10.5 as base
+FROM semoss/docker-r-python:R3.6.1-debian10.5-builder as base
 
 FROM semoss/docker-tomcat:9.0.37 as mavenpuller
 
