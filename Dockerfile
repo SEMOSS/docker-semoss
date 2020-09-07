@@ -54,9 +54,9 @@ RUN rm /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-ca-key.pem \
 	&& rm /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-self-signed-key.pem \
 	&& rm /usr/local/lib/python3.7/dist-packages/tornado/test/test.key \
 	&& rm /usr/share/doc/libnet-ssleay-perl/examples/server_key.pem \
-	&& rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/simba-athena-jdbc-driver-2.0.2.jar \
-	&& rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/redshift-jdbc42-1.2.43.1067.jar \
-	&& rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/gremlin-shaded-3.4.1.jar
+	&& rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/simba-athena-jdbc-driver* \
+	&& rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/redshift-jdbc42* \
+	&& rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/gremlin-shaded*
 
 
 COPY --from=mavenpuller /opt/semosshome /opt/semosshome
