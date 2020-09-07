@@ -53,10 +53,7 @@ RUN rm /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-ca-key.pem \
 	&& rm /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-key.pem \
 	&& rm /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-self-signed-key.pem \
 	&& rm /usr/local/lib/python3.7/dist-packages/tornado/test/test.key \
-	&& rm /usr/share/doc/libnet-ssleay-perl/examples/server_key.pem \
-	&& rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/simba-athena-jdbc-driver* \
-	&& rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/redshift-jdbc42* \
-	&& rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/gremlin-shaded*
+	&& rm /usr/share/doc/libnet-ssleay-perl/examples/server_key.pem
 
 
 COPY --from=mavenpuller /opt/semosshome /opt/semosshome
@@ -64,6 +61,10 @@ COPY --from=mavenpuller $TOMCAT_HOME/webapps/Monolith $TOMCAT_HOME/webapps/Monol
 COPY --from=mavenpuller $TOMCAT_HOME/webapps/SemossWeb $TOMCAT_HOME/webapps/SemossWeb
 COPY --from=mavenpuller /opt/semoss-artifacts/ver.txt /opt/semoss-artifacts/ver.txt
 
+RUN  rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/simba-athena-jdbc-driver* \
+	&& rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/redshift-jdbc42* \
+	&& rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/gremlin-shaded*
+	
 COPY terajdbc4.jar $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib
 COPY gremlin-shaded-3.4.1.jar $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib
 
