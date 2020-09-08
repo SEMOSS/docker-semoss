@@ -72,7 +72,7 @@ COPY gremlin-shaded-3.4.1.jar $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib
 COPY web.xml $TOMCAT_HOME/webapps/Monolith/WEB-INF/web.xml
 COPY server.xml $TOMCAT_HOME/conf/server.xml;
 
-RUN sed -i "s/HH:mm:ss}/HH:mm:ss,SSS}/g" log4j.prop /opt/semosshome/log4j.prop;
+# RUN sed -i "s/HH:mm:ss}/HH:mm:ss,SSS}/g" log4j.prop /opt/semosshome/log4j.prop;
 
 RUN chmod -R 777 /opt
 RUN chmod -R 777 /usr/bin/rclone
