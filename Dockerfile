@@ -63,7 +63,8 @@ COPY --from=mavenpuller /opt/semoss-artifacts/ver.txt /opt/semoss-artifacts/ver.
 
 RUN  rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/simba-athena-jdbc-driver* \
 	&& rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/redshift-jdbc42* \
-	&& rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/gremlin-shaded*
+	&& rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/gremlin-shaded* \
+	&& rm -r $TOMCAT_HOME/webapps/SemossWeb/playsheet
 	
 COPY terajdbc4.jar $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib
 COPY gremlin-shaded-3.4.1.jar $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib
