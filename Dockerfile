@@ -64,10 +64,15 @@ COPY --from=mavenpuller /opt/semoss-artifacts/ver.txt /opt/semoss-artifacts/ver.
 RUN  rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/simba-athena-jdbc-driver* \
 	&& rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/redshift-jdbc42* \
 	&& rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/gremlin-shaded* \
+	&& rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/web.xml* \
 	&& rm -r $TOMCAT_HOME/webapps/SemossWeb/playsheet
 	
 COPY terajdbc4.jar $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib
 COPY gremlin-shaded-3.4.1.jar $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib
+COPY web.xml $TOMCAT_HOME/webapps/Monolith/WEB-INF/web.xml
+COPY server.xml $TOMCAT_HOME/conf/server.xml;
+
+RUN sed -i "s/HH:mm:ss}/HH:mm:ss,SSS}/g" log4j.prop /opt/semosshome/log4j.prop;
 
 RUN chmod -R 777 /opt
 RUN chmod -R 777 /usr/bin/rclone
