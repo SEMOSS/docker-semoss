@@ -76,6 +76,19 @@ COPY server.xml $TOMCAT_HOME/conf/server.xml;
 
 # RUN sed -i "s/HH:mm:ss}/HH:mm:ss,SSS}/g" log4j.prop /opt/semosshome/log4j.prop;
 
+# Tomcat lof4j2 changes
+# Make directories
+RUN mkdir -pv $TOMCAT_HOME/log4j2/lib
+RUN mkdir -pv $TOMCAT_HOME/log4j2/conf
+# Move jars / configuration file
+COPY log4j2/lib/log4j-* $TOMCAT_HOME/log4j2/lib;
+COPY log4j2/conf/log4j2-* $TOMCAT_HOME/log4j2/conf;
+# Modify setenv
+RUN echo "CLASSPATH=\"$CATALINA_HOME/log4j2/lib/*:$CATALINA_HOME/log4j2/conf\"" >> $TOMCAT_HOME/bin/setenv.sh \
+	&& echo "LOGGING_MANAGER=\"-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager\"" >> $TOMCAT_HOME/bin/setenv.sh	
+# Delete old configuration file
+RUN rm $TOMCAT_HOME/conf/logging.properties
+
 RUN chmod -R 777 /opt
 RUN chmod -R 777 /usr/bin/rclone
 
