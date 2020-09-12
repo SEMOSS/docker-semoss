@@ -84,7 +84,7 @@ RUN mkdir -pv $TOMCAT_HOME/log4j2/conf
 COPY log4j2/lib/log4j-* $TOMCAT_HOME/log4j2/lib/
 COPY log4j2/conf/log4j2-* $TOMCAT_HOME/log4j2/conf/
 # Modify setenv
-RUN echo "CLASSPATH=\"$CATALINA_HOME/log4j2/lib/*:$CATALINA_HOME/log4j2/conf\"" >> $TOMCAT_HOME/bin/setenv.sh
+RUN echo "CLASSPATH=\"$TOMCAT_HOME/log4j2/lib/*:$TOMCAT_HOME/log4j2/conf\"" >> $TOMCAT_HOME/bin/setenv.sh
 # Delete old configuration file
 RUN rm $TOMCAT_HOME/conf/logging.properties
 
