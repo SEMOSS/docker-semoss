@@ -248,7 +248,7 @@
    </context-param>
    <context-param>
 	  <param-name>log4jConfiguration</param-name>
-	  <param-value>/opt/semosshome/log4j2.properties</param-value>
+	  <param-value>file:////opt/semosshome/log4j2.properties</param-value>
    </context-param>
    <context-param>
       <param-name>security-enabled</param-name>
