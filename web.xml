@@ -4,7 +4,6 @@
    <welcome-file-list>
       <welcome-file>index.html</welcome-file>
    </welcome-file-list>
-
    <!-- From Tomcat -->
    <filter>
       <filter-name>SetCharacterEncoding</filter-name>
@@ -17,6 +16,47 @@
    <filter-mapping>
       <filter-name>SetCharacterEncoding</filter-name>
       <url-pattern>/*</url-pattern>
+   </filter-mapping>
+   <filter>
+      <filter-name>HeaderSecurityFilter</filter-name>
+      <filter-class>org.apache.catalina.filters.HttpHeaderSecurityFilter</filter-class>
+   </filter>
+   <filter-mapping>
+      <filter-name>HeaderSecurityFilter</filter-name>
+      <url-pattern>/*</url-pattern>
+   </filter-mapping>
+   <!-- CORS FILTER - MUST FILL IN cors.allowed.origins -->
+   <filter>
+      <filter-name>CorsFilter</filter-name>
+      <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
+      <init-param>
+         <param-name>cors.allowed.origins</param-name>
+         <param-value />
+      </init-param>
+      <init-param>
+         <param-name>cors.allowed.methods</param-name>
+         <param-value>GET,POST,HEAD,OPTIONS,PUT</param-value>
+      </init-param>
+      <init-param>
+         <param-name>cors.allowed.headers</param-name>
+         <param-value>Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers</param-value>
+      </init-param>
+      <init-param>
+         <param-name>cors.exposed.headers</param-name>
+         <param-value>Access-Control-Allow-Origin,Access-Control-Allow-Credentials</param-value>
+      </init-param>
+      <init-param>
+         <param-name>cors.support.credentials</param-name>
+         <param-value>true</param-value>
+      </init-param>
+      <init-param>
+         <param-name>cors.preflight.maxage</param-name>
+         <param-value>10</param-value>
+      </init-param>
+   </filter>
+   <filter-mapping>
+      <filter-name>CorsFilter</filter-name>
+      <url-pattern>/api/*</url-pattern>
    </filter-mapping>
 
    <!-- general check that the databases loaded properly -->
@@ -40,7 +80,6 @@
    </filter-mapping>
 
    <!--  allow anonymous users -->
-
    <filter>
       <filter-name>AnonymousUserFilter</filter-name>
       <filter-class>prerna.web.conf.AnonymousUserFilter</filter-class>
@@ -49,7 +88,6 @@
       <filter-name>AnonymousUserFilter</filter-name>
       <url-pattern>/api/*</url-pattern>
    </filter-mapping>
-
 
    <!-- CAC FILTER -->
    <!--
@@ -74,7 +112,6 @@
       <url-pattern>/api/*</url-pattern>
    </filter-mapping>
    -->
-
    <!-- PIV FILTER -->
    <!--
    <filter>
@@ -98,7 +135,6 @@
       <url-pattern>/api/*</url-pattern>
    </filter-mapping>
    -->
-
    <!-- WAFFLE IT -->
    <!--
    <filter>
@@ -161,19 +197,19 @@
    </filter-mapping>
    -->
    <!-- End Waffle -->
-   <!-- Allow Token Filter -->
 
+   <!-- Allow Token Filter -->
    <filter>
       <filter-name>NoUserInSessionTrustedTokenFilter</filter-name>
       <filter-class>prerna.web.conf.NoUserInSessionTrustedTokenFilter</filter-class>
-          <init-param>
-                        <param-name>trustedTokenPrefix</param-name>
-                        <param-value>sencha</param-value>
-          </init-param>
-          <init-param>
-                        <param-name>trustedTokenDomain</param-name>
-                        <param-value>*</param-value>
-          </init-param>
+      <init-param>
+         <param-name>trustedTokenPrefix</param-name>
+         <param-value>sencha</param-value>
+      </init-param>
+      <init-param>
+         <param-name>trustedTokenDomain</param-name>
+         <param-value>*</param-value>
+      </init-param>
    </filter>
    <filter-mapping>
       <filter-name>NoUserInSessionTrustedTokenFilter</filter-name>
@@ -189,6 +225,7 @@
       <filter-name>NoUserInSessionFilter</filter-name>
       <url-pattern>/api/*</url-pattern>
    </filter-mapping>
+
    <!-- filter on the admin servlet -->
    <filter>
       <filter-name>AdminStartupFilter</filter-name>
@@ -198,7 +235,6 @@
       <filter-name>AdminStartupFilter</filter-name>
       <url-pattern>/adminconfig/*</url-pattern>
    </filter-mapping>
-
    <!-- IF YOU WANT THE ADMIN TO ADD EVERY USER, UNCOMMENT BELOW -->
    <!--
    <filter>
@@ -220,9 +256,9 @@
          <param-value>prerna.semoss.web.app.MonolithApplication</param-value>
       </init-param>
       <init-param>
-             <param-name>resteasy.servlet.mapping.prefix</param-name>
-             <param-value>/api</param-value>
-          </init-param>
+         <param-name>resteasy.servlet.mapping.prefix</param-name>
+         <param-value>/api</param-value>
+      </init-param>
    </servlet>
    <servlet-mapping>
       <servlet-name>MainApplication</servlet-name>
@@ -247,8 +283,8 @@
       <param-value>false</param-value>
    </context-param>
    <context-param>
-	  <param-name>log4jConfiguration</param-name>
-	  <param-value>file:////opt/semosshome/log4j2.properties</param-value>
+      <param-name>log4jConfiguration</param-name>
+      <param-value>file:////opt/semosshome/log4j2.properties</param-value>
    </context-param>
    <context-param>
       <param-name>security-enabled</param-name>
@@ -266,7 +302,7 @@
       <param-name>anonymous-users-allowed</param-name>
       <param-value>false</param-value>
    </context-param>
-      <context-param>
+   <context-param>
       <param-name>anonymous-users-upload-data</param-name>
       <param-value>false</param-value>
    </context-param>
@@ -277,7 +313,7 @@
    <!-- requires use-logout-page to be true -->
    <context-param>
       <param-name>custom-logout-url</param-name>
-      <param-value></param-value>
+      <param-value />
    </context-param>
    <context-param>
       <description>Location to store uploaded file</description>
@@ -294,6 +330,7 @@
       <param-name>RDF-MAP</param-name>
       <param-value>/opt/semosshome/RDF_Map.prop</param-value>
    </context-param>
+
    <!-- listeners -->
    <listener>
       <listener-class>prerna.web.conf.DBLoader</listener-class>
@@ -307,11 +344,10 @@
    <listener>
       <listener-class>prerna.web.conf.NoUserInSessionTrustedTokenListener</listener-class>
    </listener>
-
    <session-config>
       <session-timeout>120</session-timeout>
       <cookie-config>
          <name>monolith</name>
-          </cookie-config>
+      </cookie-config>
    </session-config>
 </web-app>
