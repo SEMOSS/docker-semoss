@@ -3,8 +3,7 @@ FROM semoss/docker-r-python:R3.6.1-debian10.5-builder as base
 FROM semoss/docker-tomcat:9.0.37 as mavenpuller
 
 # skip cache based on the semoss-artifacts 
-# can be more precise by adding the branch after heads
-ADD "https://api.github.com/repos/SEMOSS/semoss-artifacts/git/refs/heads" skipcache
+ADD "https://api.github.com/repos/SEMOSS/semoss-artifacts/git/refs/heads/master" skipcache
 RUN apt-get update -y \
 	&& apt-get install -y curl lsof \
 	&& mkdir /opt/semosshome \
@@ -45,7 +44,7 @@ RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add
 	&& apt-get update \
 	&& apt-get install -y google-chrome-stable
 
-ADD "https://api.github.com/repos/SEMOSS/semoss-artifacts/git/refs/heads" skipcache
+ADD "https://api.github.com/repos/SEMOSS/semoss-artifacts/git/refs/heads/master" skipcache
 RUN apt-get update -y \
 	&& apt-get install -y curl lsof \
 	&& cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
