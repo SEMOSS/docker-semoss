@@ -2,11 +2,13 @@ FROM semoss/docker-r-python:R3.6.2-debian10 as base
 
 FROM semoss/docker-tomcat:debian10 as mavenpuller
 
-ADD "http://date.jsontest.com/" skipcache
+# skip cache based on the semoss-artifacts 
+# can be more precise by adding the branch after heads
+ADD "https://api.github.com/repos/SEMOSS/semoss-artifacts/git/refs/heads" skipcache
 RUN apt-get update -y \
 	&& apt-get install -y curl lsof \
 	&& mkdir /opt/semosshome \
-    && cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
+    	&& cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
 	&& chmod 777 /opt/semoss-artifacts/artifacts/scripts/*.sh \
 	&& /opt/semoss-artifacts/artifacts/scripts/update_latest_dev.sh \
 	&& chmod 777 /opt/semosshome/config/Chromedriver/*
