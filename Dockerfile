@@ -44,6 +44,7 @@ RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add
 	&& apt-get update \
 	&& apt-get install -y google-chrome-stable
 
+ADD "https://api.github.com/repos/SEMOSS/semoss-artifacts/git/refs/heads" skipcache
 RUN apt-get update -y \
 	&& apt-get install -y curl lsof \
 	&& cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
