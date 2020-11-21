@@ -2,7 +2,7 @@ FROM semoss/docker-r-python:R3.6.1-debian10.5-builder as base
 
 FROM semoss/docker-tomcat:9.0.37 as mavenpuller
 
-#ADD "http://worldtimeapi.org/api/timezone/America/New_York" skipcache
+ADD "https://www.random.org/cgi-bin/randbyte?nbytes=10&format=h" skipcache
 RUN apt-get update -y \
 	&& apt-get install -y curl lsof \
 	&& mkdir /opt/semosshome \
