@@ -45,6 +45,7 @@ RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add
 	&& apt-get update \
 	&& apt-get install -y google-chrome-stable
 
+ADD "https://api.github.com/repos/SEMOSS/semoss-artifacts/git/refs/heads" skipcache
 RUN apt-get update -y \
 	&& apt-get install -y curl lsof \
 	&& cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
@@ -56,7 +57,6 @@ RUN rm /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-ca-key.pem \
 	&& rm /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-self-signed-key.pem \
 	&& rm /usr/local/lib/python3.7/dist-packages/tornado/test/test.key \
 	&& rm /usr/share/doc/libnet-ssleay-perl/examples/server_key.pem
-
 
 COPY --from=mavenpuller /opt/semosshome /opt/semosshome
 COPY --from=mavenpuller $TOMCAT_HOME/webapps/Monolith $TOMCAT_HOME/webapps/Monolith
