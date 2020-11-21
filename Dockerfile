@@ -3,7 +3,6 @@ FROM semoss/docker-r-python:R3.6.2-debian10 as base
 FROM semoss/docker-tomcat:debian10 as mavenpuller
 
 # skip cache based on the semoss-artifacts 
-# can be more precise by adding the branch after heads
 ADD "https://api.github.com/repos/SEMOSS/semoss-artifacts/git/refs/heads/master" skipcache
 RUN apt-get update -y \
 	&& apt-get install -y curl lsof \
