@@ -3,14 +3,14 @@ FROM semoss/docker-r-python:R3.6.1-debian10.5-builder as base
 FROM semoss/docker-tomcat:9.0.37 as mavenpuller
 
 # skip cache based on the semoss-artifacts 
-ADD "https://api.github.com/repos/SEMOSS/semoss-artifacts/git/refs/heads/master" skipcache
 RUN apt-get update -y \
 	&& apt-get install -y curl lsof \
 	&& mkdir /opt/semosshome \
-   	&& cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
+	&& chmod 777 /opt/semosshome/config/Chromedriver/*
+ADD "https://api.github.com/repos/SEMOSS/semoss-artifacts/git/refs/heads/master" skipcache
+RUN cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
 	&& chmod 777 /opt/semoss-artifacts/artifacts/scripts/*.sh \
 	&& /opt/semoss-artifacts/artifacts/scripts/update_latest_dev.sh \
-	&& chmod 777 /opt/semosshome/config/Chromedriver/*
 
 FROM base
 
