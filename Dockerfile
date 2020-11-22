@@ -58,6 +58,7 @@ RUN rm /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-ca-key.pem \
 	&& rm /usr/share/doc/libnet-ssleay-perl/examples/server_key.pem
 
 COPY --from=mavenpuller /opt/semosshome /opt/semosshome
+RUN chmod 777 /opt/semosshome/social.properties
 COPY --from=mavenpuller $TOMCAT_HOME/webapps/Monolith $TOMCAT_HOME/webapps/Monolith
 COPY --from=mavenpuller $TOMCAT_HOME/webapps/SemossWeb $TOMCAT_HOME/webapps/SemossWeb
 COPY --from=mavenpuller /opt/semoss-artifacts/ver.txt /opt/semoss-artifacts/ver.txt
