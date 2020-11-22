@@ -6,11 +6,11 @@ FROM semoss/docker-tomcat:9.0.37 as mavenpuller
 RUN apt-get update -y \
 	&& apt-get install -y curl lsof \
 	&& mkdir /opt/semosshome \
-	&& chmod 777 /opt/semosshome/config/Chromedriver/*
 ADD "https://api.github.com/repos/SEMOSS/semoss-artifacts/git/refs/heads/master" skipcache
 RUN cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
 	&& chmod 777 /opt/semoss-artifacts/artifacts/scripts/*.sh \
 	&& /opt/semoss-artifacts/artifacts/scripts/update_latest_dev.sh \
+	&& chmod 777 /opt/semosshome/config/Chromedriver/*
 
 FROM base
 
