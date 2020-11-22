@@ -93,7 +93,7 @@ RUN rm $TOMCAT_HOME/conf/logging.properties
 # Final change to chmod before switching to non-root user
 RUN chmod -R 777 /opt
 RUN chmod -R 777 /usr/bin/rclone
-RUN chmod -R 777 /usr/lib/jvm/zulu8.44.0.13-ca-fx-jdk8.0.242-linux_x64
+RUN chmod -R 777 /usr/lib/jvm/zulu8.44.0.13-ca-fx-jdk8.0.242-linux_x64/jre/lib
 
 USER 1001
 
