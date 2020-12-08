@@ -50,12 +50,12 @@ RUN apt-get update -y \
 	&& cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
 	&& chmod 777 /opt/semoss-artifacts/artifacts/scripts/*.sh
 	
-RUN rm /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-ca-key.pem \
-	&& rm /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-key-cert.pem \
-	&& rm /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-key.pem \
-	&& rm /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-self-signed-key.pem \
-	&& rm /usr/local/lib/python3.7/dist-packages/tornado/test/test.key \
-	&& rm /usr/share/doc/libnet-ssleay-perl/examples/server_key.pem
+RUN rm -f /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-ca-key.pem \
+	&& rm -f /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-key-cert.pem \
+	&& rm -f /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-key.pem \
+	&& rm -f /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-self-signed-key.pem \
+	&& rm -f /usr/local/lib/python3.7/dist-packages/tornado/test/test.key \
+	&& rm -f /usr/share/doc/libnet-ssleay-perl/examples/server_key.pem
 
 COPY --from=mavenpuller /opt/semosshome /opt/semosshome
 RUN chmod 777 /opt/semosshome/social.properties
