@@ -47,7 +47,7 @@ RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add
 ADD "https://api.github.com/repos/SEMOSS/semoss-artifacts/git/refs/heads/master" skipcache
 RUN apt-get update -y \
 	&& apt-get install -y curl lsof \
-	&& apt-get install -y ps \
+	&& apt-get install -y procps \
 	&& cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
 	&& chmod 777 /opt/semoss-artifacts/artifacts/scripts/*.sh
 	
