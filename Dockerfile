@@ -1,6 +1,6 @@
-FROM semoss/docker-r-python:R3.6.1-debian10.5-builder as base
+FROM semoss/docker-r-python:R4.1.0-debian10.5-builder as base
 
-FROM semoss/docker-tomcat:9.0.37 as mavenpuller
+FROM semoss/docker-tomcat:9.0.48 as mavenpuller
 
 #ADD "http://worldtimeapi.org/api/timezone/America/New_York" skipcache
 RUN apt-get update -y \
@@ -48,13 +48,14 @@ RUN apt-get update -y \
 	&& cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
 	&& chmod 777 /opt/semoss-artifacts/artifacts/scripts/*.sh
 	
-RUN rm /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-ca-key.pem \
-	&& rm /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-key-cert.pem \
-	&& rm /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-key.pem \
-	&& rm /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-self-signed-key.pem \
-	&& rm /usr/local/lib/python3.7/dist-packages/tornado/test/test.key \
-	&& rm /usr/share/doc/libnet-ssleay-perl/examples/server_key.pem
+# RUN rm /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-ca-key.pem \
+# 	&& rm /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-key-cert.pem \
+# 	&& rm /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-key.pem \
+# 	&& rm /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-self-signed-key.pem \
+# 	&& rm /usr/local/lib/python3.7/dist-packages/tornado/test/test.key \
+# 	&& rm /usr/share/doc/libnet-ssleay-perl/examples/server_key.pem
 
+RUN rm /usr/share/doc/libnet-ssleay-perl/examples/server_key.pem
 
 COPY --from=mavenpuller /opt/semosshome /opt/semosshome
 COPY --from=mavenpuller $TOMCAT_HOME/webapps/Monolith $TOMCAT_HOME/webapps/Monolith
@@ -69,8 +70,8 @@ RUN  rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/simba-athena-jdbc-driver* \
 	
 COPY terajdbc4.jar $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib
 COPY gremlin-shaded-3.4.1.jar $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib
-COPY web.xml $TOMCAT_HOME/webapps/Monolith/WEB-INF/web.xml
-COPY server.xml $TOMCAT_HOME/conf/server.xml;
+# COPY web.xml $TOMCAT_HOME/webapps/Monolith/WEB-INF/web.xml
+# COPY server.xml $TOMCAT_HOME/conf/server.xml;
 
 # RUN sed -i "s/HH:mm:ss}/HH:mm:ss,SSS}/g" log4j.prop /opt/semosshome/log4j.prop;
 
@@ -83,4 +84,4 @@ WORKDIR /opt/semoss-artifacts/artifacts/scripts
 
 ENV PATH=$PATH:$TOMCAT_HOME/bin:/usr/bin
 
-CMD ["/opt/apache-tomcat-9.0.37/bin/start.sh"]
+CMD ["/opt/apache-tomcat-9.0.48/bin/start.sh"]
