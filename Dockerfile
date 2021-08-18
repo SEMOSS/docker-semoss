@@ -11,7 +11,7 @@ FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} as base
 FROM ${BUILDER_BASE_REGISTRY}/${BUILDER_BASE_IMAGE}:${BUILDER_BASE_TAG} as mavenpuller
 
 ADD "http://worldtimeapi.org/api/timezone/America/New_York" skipcache
-RUN apt-get update -y \
+RUN apt-get --allow-releaseinfo-change update -y \
 	&& apt-get install -y curl lsof \
 	&& mkdir /opt/semosshome \
     && cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
@@ -34,7 +34,8 @@ ENV R_HOME=/usr/lib/R
 # Install Chrome
 # Set LD_PRELOAD on Tomcat
 
-RUN	wget https://downloads.rclone.org/v1.47.0/rclone-v1.47.0-linux-amd64.deb \
+RUN	apt-get --allow-releaseinfo-change update -y \
+	&& wget https://downloads.rclone.org/v1.47.0/rclone-v1.47.0-linux-amd64.deb \
 	&& dpkg -i rclone-v1.47.0-linux-amd64.deb \
 	&& apt-get install -f \
 	&& rm rclone-v1.47.0-linux-amd64.deb \
