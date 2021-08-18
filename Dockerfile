@@ -3,7 +3,7 @@ FROM semoss/docker-r-python:R3.6.1-debian10.5-builder as base
 FROM semoss/docker-tomcat:9.0.37 as mavenpuller
 
 # skip cache based on the semoss-artifacts 
-RUN apt-get update -y \
+RUN apt-get --allow-releaseinfo-change update -y \
 	&& apt-get install -y curl lsof \
 	&& mkdir /opt/semosshome
 ADD "https://api.github.com/repos/SEMOSS/semoss-artifacts/git/refs/heads/master" skipcache
@@ -27,7 +27,8 @@ ENV R_HOME=/usr/lib/R
 # Install Chrome
 # Set LD_PRELOAD on Tomcat
 
-RUN	wget https://downloads.rclone.org/v1.47.0/rclone-v1.47.0-linux-amd64.deb \
+RUN	apt-get --allow-releaseinfo-change update -y \
+	&& wget https://downloads.rclone.org/v1.47.0/rclone-v1.47.0-linux-amd64.deb \
 	&& dpkg -i rclone-v1.47.0-linux-amd64.deb \
 	&& apt-get install -f \
 	&& rm rclone-v1.47.0-linux-amd64.deb \
