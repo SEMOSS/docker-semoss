@@ -1,6 +1,14 @@
-FROM semoss/docker-r-python:R3.6.2-debian10 as base
+ARG BASE_REGISTRY=quay.io
+ARG BASE_IMAGE=semoss/docker-r-python
+ARG BASE_TAG=R3.6.2-debian10
 
-FROM semoss/docker-tomcat:debian10 as mavenpuller
+ARG BUILDER_BASE_REGISTRY=quay.io
+ARG BUILDER_BASE_IMAGE=semoss/docker-tomcat
+ARG BUILDER_BASE_TAG=debian10
+
+FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} as base
+
+FROM ${BUILDER_BASE_REGISTRY}/${BUILDER_BASE_IMAGE}:${BUILDER_BASE_TAG} as mavenpuller
 
 ADD "http://worldtimeapi.org/api/timezone/America/New_York" skipcache
 RUN apt-get update -y \
