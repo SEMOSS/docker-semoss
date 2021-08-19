@@ -1,6 +1,15 @@
-FROM semoss/docker-r-python:R3.6.1-debian10.5-builder as base
+  
+ARG BASE_REGISTRY=quay.io
+ARG BASE_IMAGE=semoss/docker-r-python
+ARG BASE_TAG=R3.6.1-debian10.5-builder
 
-FROM semoss/docker-tomcat:9.0.37 as mavenpuller
+ARG BUILDER_BASE_REGISTRY=quay.io
+ARG BUILDER_BASE_IMAGE=semoss/docker-tomcat
+ARG BUILDER_BASE_TAG=9.0.37
+
+FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} as base
+
+FROM ${BUILDER_BASE_REGISTRY}/${BUILDER_BASE_IMAGE}:${BUILDER_BASE_TAG} as mavenpuller
 
 # skip cache based on the semoss-artifacts 
 RUN apt-get --allow-releaseinfo-change update -y \
