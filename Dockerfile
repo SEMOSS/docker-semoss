@@ -1,10 +1,12 @@
+#docker build . -t quay.io/semoss/docker:R4.1.1-debian11
+
 ARG BASE_REGISTRY=quay.io
 ARG BASE_IMAGE=semoss/docker-r-python
-ARG BASE_TAG=R3.6.1-debian10.5
+ARG BASE_TAG=R4.1.1-debian11
 
 ARG BUILDER_BASE_REGISTRY=quay.io
 ARG BUILDER_BASE_IMAGE=semoss/docker-tomcat
-ARG BUILDER_BASE_TAG=9.0.37
+ARG BUILDER_BASE_TAG=debian11
 
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} as base
 
@@ -42,8 +44,8 @@ RUN	wget https://downloads.rclone.org/v1.47.0/rclone-v1.47.0-linux-amd64.deb \
 	&& mkdir /opt/semosshome \
 	&& mkdir $TOMCAT_HOME/webapps/Monolith \
 	&& mkdir $TOMCAT_HOME/webapps/SemossWeb \
-	&& echo "export LD_PRELOAD=/usr/lib/python3.7/config-3.7m-x86_64-linux-gnu/libpython3.7.so" >> $TOMCAT_HOME/bin/setenv.sh \
-	&& cp /usr/lib/jvm/zulu8.44.0.13-ca-fx-jdk8.0.242-linux_x64/lib/tools.jar $TOMCAT_HOME/lib \
+	&& echo "export LD_PRELOAD=/usr/lib/python3.9/config-3.9m-x86_64-linux-gnu/libpython3.9.so" >> $TOMCAT_HOME/bin/setenv.sh \
+	&& cp /usr/lib/jvm/zulu8.56.0.21-ca-fx-jdk8.0.302-linux_x64/lib/tools.jar $TOMCAT_HOME/lib \
 	&& sed -i "s/tomcat.util.scan.StandardJarScanFilter.jarsToSkip=/tomcat.util.scan.StandardJarScanFilter.jarsToSkip=*.jar,/g" $TOMCAT_HOME/conf/catalina.properties;
 
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
@@ -63,4 +65,4 @@ COPY --from=mavenpuller /opt/semoss-artifacts/ver.txt /opt/semoss-artifacts/ver.
 
 WORKDIR /opt/semoss-artifacts/artifacts/scripts
 
-CMD ["/opt/apache-tomcat-9.0.37/bin/start.sh"]
+CMD ["/opt/apache-tomcat-9.0.52/bin/start.sh"]
