@@ -1,11 +1,13 @@
   
+#docker build . -t quay.io/semoss/docker:R4.1.1-debian11-user
+
 ARG BASE_REGISTRY=quay.io
 ARG BASE_IMAGE=semoss/docker-r-python
-ARG BASE_TAG=R3.6.1-debian10.5-builder
+ARG BASE_TAG=R4.1.1-debian11-builder
 
 ARG BUILDER_BASE_REGISTRY=quay.io
 ARG BUILDER_BASE_IMAGE=semoss/docker-tomcat
-ARG BUILDER_BASE_TAG=9.0.37
+ARG BUILDER_BASE_TAG=debian11
 
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} as base
 
@@ -45,8 +47,8 @@ RUN	apt-get --allow-releaseinfo-change update -y \
 	&& mkdir /opt/semosshome \
 	&& mkdir $TOMCAT_HOME/webapps/Monolith \
 	&& mkdir $TOMCAT_HOME/webapps/SemossWeb \
-	&& echo "export LD_PRELOAD=/usr/lib/python3.7/config-3.7m-x86_64-linux-gnu/libpython3.7.so" >> $TOMCAT_HOME/bin/setenv.sh \
-	&& cp /usr/lib/jvm/zulu8.44.0.13-ca-fx-jdk8.0.242-linux_x64/lib/tools.jar $TOMCAT_HOME/lib \
+	&& echo "export LD_PRELOAD=/usr/lib/python3.9/config-3.9m-x86_64-linux-gnu/libpython3.9.so" >> $TOMCAT_HOME/bin/setenv.sh \
+	&& cp /usr/lib/jvm/zulu8.56.0.21-ca-fx-jdk8.0.302-linux_x64/lib/tools.jar $TOMCAT_HOME/lib \
 	&& sed -i "s/tomcat.util.scan.StandardJarScanFilter.jarsToSkip=/tomcat.util.scan.StandardJarScanFilter.jarsToSkip=*.jar,/g" $TOMCAT_HOME/conf/catalina.properties;
 
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
@@ -61,11 +63,11 @@ RUN apt-get update -y \
 	&& cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
 	&& chmod 777 /opt/semoss-artifacts/artifacts/scripts/*.sh
 	
-RUN rm -f /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-ca-key.pem \
-	&& rm -f /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-key-cert.pem \
-	&& rm -f /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-key.pem \
-	&& rm -f /usr/local/lib/python3.7/dist-packages/distributed/tests/tls-self-signed-key.pem \
-	&& rm -f /usr/local/lib/python3.7/dist-packages/tornado/test/test.key \
+RUN rm -f /usr/local/lib/python3.9/dist-packages/distributed/tests/tls-ca-key.pem \
+	&& rm -f /usr/local/lib/python3.9/dist-packages/distributed/tests/tls-key-cert.pem \
+	&& rm -f /usr/local/lib/python3.9/dist-packages/distributed/tests/tls-key.pem \
+	&& rm -f /usr/local/lib/python3.9/dist-packages/distributed/tests/tls-self-signed-key.pem \
+	&& rm -f /usr/local/lib/python3.9/dist-packages/tornado/test/test.key \
 	&& rm -f /usr/share/doc/libnet-ssleay-perl/examples/server_key.pem
 
 COPY --from=mavenpuller /opt/semosshome /opt/semosshome
@@ -110,7 +112,7 @@ RUN rm $TOMCAT_HOME/conf/logging.properties
 # Final change to chmod before switching to non-root user
 RUN chmod -R 777 /opt
 RUN chmod -R 777 /usr/bin/rclone
-RUN chmod -R 777 /usr/lib/jvm/zulu8.44.0.13-ca-fx-jdk8.0.242-linux_x64/jre/lib/security
+RUN chmod -R 777 /usr/lib/jvm/zulu8.56.0.21-ca-fx-jdk8.0.302-linux_x64/jre/lib/security
 
 USER 1001
 
@@ -118,4 +120,4 @@ WORKDIR /opt/semoss-artifacts/artifacts/scripts
 
 ENV PATH=$PATH:$TOMCAT_HOME/bin:/usr/bin
 
-CMD ["/opt/apache-tomcat-9.0.37/bin/start.sh"]
+CMD ["/opt/apache-tomcat-9.0.52/bin/start.sh"]
