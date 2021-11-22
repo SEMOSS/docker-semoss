@@ -35,7 +35,7 @@ ENV R_HOME=/usr/lib/R
 # Set LD_PRELOAD on Tomcat
 
 RUN	apt-get --allow-releaseinfo-change update -y \
-	&& wget https://downloads.rclone.org/v1.47.0/rclone-v1.47.0-linux-amd64.deb \
+	&& wget  --no-check-certificate https://downloads.rclone.org/v1.47.0/rclone-v1.47.0-linux-amd64.deb \
 	&& dpkg -i rclone-v1.47.0-linux-amd64.deb \
 	&& apt-get install -f \
 	&& rm rclone-v1.47.0-linux-amd64.deb \
