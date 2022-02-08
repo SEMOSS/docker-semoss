@@ -77,8 +77,7 @@ COPY --from=mavenpuller $TOMCAT_HOME/webapps/Monolith $TOMCAT_HOME/webapps/Monol
 COPY --from=mavenpuller $TOMCAT_HOME/webapps/SemossWeb $TOMCAT_HOME/webapps/SemossWeb
 COPY --from=mavenpuller /opt/semoss-artifacts/ver.txt /opt/semoss-artifacts/ver.txt
 
-RUN  rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/simba-athena-jdbc-driver* \
-	&& rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/redshift-jdbc42* \
+RUN  rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/redshift-jdbc42* \
 	&& rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/gremlin-shaded* \
 	&& rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/neo4j-java-driver* \
 	&& rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/web.xml* \
