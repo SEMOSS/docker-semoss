@@ -2,7 +2,7 @@
 
 ARG BASE_REGISTRY=quay.io
 ARG BASE_IMAGE=semoss/docker-r-python
-ARG BASE_TAG=R4.1.1-debian11
+ARG BASE_TAG=R4.1.2-debian11
 
 ARG BUILDER_BASE_REGISTRY=quay.io
 ARG BUILDER_BASE_IMAGE=semoss/docker-tomcat
