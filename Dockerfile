@@ -87,7 +87,7 @@ COPY terajdbc4.jar $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib
 COPY gremlin-shaded-3.4.1.jar $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib
 COPY neo4j-java-driver-1.7.5.jar $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib
 COPY web.xml $TOMCAT_HOME/webapps/Monolith/WEB-INF/web.xml
-COPY server.xml $TOMCAT_HOME/conf/server.xml;
+COPY server.xml $TOMCAT_HOME/conf/server.xml
 
 
 #MODIFY THE GOOGLE ANALYTICS FROM INDEX.HTML
