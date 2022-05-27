@@ -66,4 +66,4 @@ COPY --from=mavenpuller /opt/semoss-artifacts/ver.txt /opt/semoss-artifacts/ver.
 
 WORKDIR /opt/semoss-artifacts/artifacts/scripts
 
-CMD ["/opt/apache-tomcat-9.0.63/bin/start.sh"]
+CMD ["sh", "-c", "exec $TOMCAT_HOME/bin/start.sh"]
