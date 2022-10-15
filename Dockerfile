@@ -26,9 +26,10 @@ FROM base
 LABEL maintainer="semoss@semoss.org"
 
 ENV PATH=$PATH:/opt/semoss-artifacts/artifacts/scripts
-ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib:/usr/local/lib/R/site-library/rJava/jri
 ENV R_HOME=/usr/lib/R
+ENV R_LIBS_SITE=/usr/local/lib/R/site-library
 ENV RSTUDIO_PANDOC=/usr/lib/R/pandoc-2.17.1.1/bin
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib:$R_LIBS_SITE/rJava/jri
 
 # Install Rclone
 # Create semosshome
