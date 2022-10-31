@@ -121,4 +121,4 @@ WORKDIR /opt/semoss-artifacts/artifacts/scripts
 
 ENV PATH=$PATH:$TOMCAT_HOME/bin:/usr/bin
 
-CMD ["/opt/apache-tomcat-9.0.63/bin/start.sh"]
+CMD ["sh", "-c", "exec $TOMCAT_HOME/bin/start.sh"]
