@@ -1,9 +1,9 @@
   
-#docker build . -t quay.io/semoss/docker:R4.1.2-debian11-user
+#docker build . -t quay.io/semoss/docker:R4.1.1-debian11-user
 
 ARG BASE_REGISTRY=quay.io
 ARG BASE_IMAGE=semoss/docker-r-python
-ARG BASE_TAG=R4.1.2-debian11-builder
+ARG BASE_TAG=R4.2.1-debian11-builder
 
 ARG BUILDER_BASE_REGISTRY=quay.io
 ARG BUILDER_BASE_IMAGE=semoss/docker-tomcat
@@ -40,10 +40,10 @@ ENV RSTUDIO_PANDOC=/usr/lib/R/pandoc-2.17.1.1/bin
 # Set LD_PRELOAD on Tomcat
 
 RUN	apt-get --allow-releaseinfo-change update -y \
-	&& wget https://downloads.rclone.org/v1.47.0/rclone-v1.47.0-linux-amd64.deb \
-	&& dpkg -i rclone-v1.47.0-linux-amd64.deb \
+	&& wget https://downloads.rclone.org/v1.60.0/rclone-v1.60.0-linux-amd64.deb \
+	&& dpkg -i rclone-v1.60.0-linux-amd64.deb \
 	&& apt-get install -f \
-	&& rm rclone-v1.47.0-linux-amd64.deb \
+	&& rm rclone-v1.60.0-linux-amd64.deb \
 	&& chmod 777 /usr/bin/rclone \
 	&& mkdir /opt/semosshome \
 	&& mkdir $TOMCAT_HOME/webapps/Monolith \
@@ -80,15 +80,16 @@ COPY --from=mavenpuller /opt/semoss-artifacts/ver.txt /opt/semoss-artifacts/ver.
 RUN  rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/redshift-jdbc42* \
 	&& rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/gremlin-shaded* \
 	&& rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib/neo4j-java-driver* \
-	&& rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/web.xml* \
 	&& rm -r $TOMCAT_HOME/webapps/SemossWeb/playsheet
 	
 COPY terajdbc4.jar $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib
 COPY gremlin-shaded-3.4.1.jar $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib
 COPY neo4j-java-driver-1.7.5.jar $TOMCAT_HOME/webapps/Monolith/WEB-INF/lib
-COPY web.xml $TOMCAT_HOME/webapps/Monolith/WEB-INF/web.xml
 COPY server.xml $TOMCAT_HOME/conf/server.xml
 
+# COMMENTING OUT web.xml CHANGES
+# RUN rm $TOMCAT_HOME/webapps/Monolith/WEB-INF/web.xml* \
+# COPY web.xml $TOMCAT_HOME/webapps/Monolith/WEB-INF/web.xml
 
 #MODIFY THE GOOGLE ANALYTICS FROM INDEX.HTML
 RUN sed -i 's#<script>window.*$##g' $TOMCAT_HOME/webapps/SemossWeb/index.html
@@ -120,4 +121,4 @@ WORKDIR /opt/semoss-artifacts/artifacts/scripts
 
 ENV PATH=$PATH:$TOMCAT_HOME/bin:/usr/bin
 
-CMD ["/opt/apache-tomcat-9.0.52/bin/start.sh"]
+CMD ["/opt/apache-tomcat-9.0.63/bin/start.sh"]
