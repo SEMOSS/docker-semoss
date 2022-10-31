@@ -115,6 +115,14 @@ RUN chmod -R 777 /opt
 RUN chmod -R 777 /usr/bin/rclone
 RUN chmod -R 777 /usr/lib/jvm/zulu8.56.0.21-ca-fx-jdk8.0.302-linux_x64/jre/lib/security
 
+RUN apt install -y debootstrap fakechroot fakeroot bindfs
+
+RUN useradd -u 1001 -r -g 0 -d ${HOME} -s /bin/bash         \
+    -c "Default Application User" default &&                \
+    chown -R 1001:0 ${HOME}
+    
+COPY fuse.conf /etc/fuse.conf
+ 
 USER 1001
 
 WORKDIR /opt/semoss-artifacts/artifacts/scripts
