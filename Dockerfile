@@ -37,10 +37,10 @@ ENV RSTUDIO_PANDOC=/usr/lib/R/pandoc-2.17.1.1/bin
 # Install Chrome
 # Set LD_PRELOAD on Tomcat
 
-RUN	wget https://downloads.rclone.org/v1.47.0/rclone-v1.47.0-linux-amd64.deb \
-	&& dpkg -i rclone-v1.47.0-linux-amd64.deb \
+RUN	wget https://downloads.rclone.org/v1.60.0/rclone-v1.60.0-linux-amd64.deb \
+	&& dpkg -i rclone-v1.60.0-linux-amd64.deb \
 	&& apt-get install -f \
-	&& rm rclone-v1.47.0-linux-amd64.deb \
+	&& rm rclone-v1.60.0-linux-amd64.deb \
 	&& chmod 777 /usr/bin/rclone \
 	&& mkdir /opt/semosshome \
 	&& mkdir $TOMCAT_HOME/webapps/Monolith \
