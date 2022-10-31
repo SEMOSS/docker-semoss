@@ -1,8 +1,8 @@
-#docker build . -t quay.io/semoss/docker:R4.1.2-debian11
+#docker build . -t quay.io/semoss/docker:R4.2.1-debian11
 
 ARG BASE_REGISTRY=quay.io
 ARG BASE_IMAGE=semoss/docker-r-python
-ARG BASE_TAG=R4.1.2-debian11-datascience
+ARG BASE_TAG=R4.2.1-debian11-datascience
 
 ARG BUILDER_BASE_REGISTRY=quay.io
 ARG BUILDER_BASE_IMAGE=semoss/docker-tomcat
