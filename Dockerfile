@@ -1,12 +1,12 @@
-#docker build . -t quay.io/semoss/docker:ubi8
+#docker build . -t quay.io/semoss/docker:ubi8-rhel
 
 ARG BASE_REGISTRY=quay.io
 ARG BASE_IMAGE=semoss/docker-tomcat
-ARG BASE_TAG=ubi8-r
+ARG BASE_TAG=ubi8-rhel
 
 ARG BUILDER_BASE_REGISTRY=quay.io
 ARG BUILDER_BASE_IMAGE=semoss/docker-tomcat
-ARG BUILDER_BASE_TAG=ubi8-r
+ARG BUILDER_BASE_TAG=ubi8-rhel
 
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} as base
 
