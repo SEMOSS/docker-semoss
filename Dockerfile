@@ -42,7 +42,7 @@ RUN	wget https://downloads.rclone.org/v1.64.2/rclone-v1.64.2-linux-amd64.rpm \
 	&& mkdir /opt/semosshome \
 	&& mkdir $TOMCAT_HOME/webapps/Monolith \
 	&& mkdir $TOMCAT_HOME/webapps/SemossWeb \
-	&& echo "export LD_PRELOAD=/usr/local/lib/libpython3.9.so" >> $TOMCAT_HOME/bin/setenv.sh \
+	&& echo "export LD_PRELOAD=/usr/lib64/libpython3.9.so" >> $TOMCAT_HOME/bin/setenv.sh \
 	&& cp $JAVA_HOME/lib/tools.jar $TOMCAT_HOME/lib \
 	&& sed -i "s/tomcat.util.scan.StandardJarScanFilter.jarsToSkip=/tomcat.util.scan.StandardJarScanFilter.jarsToSkip=*.jar,/g" $TOMCAT_HOME/conf/catalina.properties;
 
