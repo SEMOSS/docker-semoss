@@ -14,7 +14,6 @@ FROM ${BUILDER_BASE_REGISTRY}/${BUILDER_BASE_IMAGE}:${BUILDER_BASE_TAG} as maven
 
 #ADD "http://worldtimeapi.org/api/timezone/America/New_York" skipcache
 RUN yum install -y curl lsof \
-	#apt-get update -y \
 	&& mkdir /opt/semosshome \
 	&& cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
 	&& chmod 777 /opt/semoss-artifacts/artifacts/scripts/*.sh \
