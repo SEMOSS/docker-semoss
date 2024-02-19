@@ -1,12 +1,12 @@
-#docker build . -t quay.io/semoss/docker:R4.2.1-debian11
+#docker build . -t quay.io/semoss/docker:cuda12.2
 
 ARG BASE_REGISTRY=quay.io
 ARG BASE_IMAGE=semoss/docker-tomcat
-ARG BASE_TAG=cuda12-new
+ARG BASE_TAG=cuda12.2
 
 ARG BUILDER_BASE_REGISTRY=quay.io
 ARG BUILDER_BASE_IMAGE=semoss/docker-tomcat
-ARG BUILDER_BASE_TAG=cuda12-new
+ARG BUILDER_BASE_TAG=cuda12.2
 
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} as base
 
