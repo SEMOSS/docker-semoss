@@ -58,7 +58,7 @@ FROM scratch AS final
 
 COPY --from=intermediate  / /
 ENV JAVA_HOME=/usr/lib/jvm/zulu8
-ENV TOMCAT_HOME=/opt/apache-tomcat-9.0.85
+ENV TOMCAT_HOME=/opt/apache-tomcat-9.0.88
 ENV R_HOME=/usr/lib/R
 ENV R_LIBS_SITE=/usr/local/lib/R/site-library
 ENV RSTUDIO_PANDOC=/usr/lib/R/pandoc-2.17.1.1/bin
