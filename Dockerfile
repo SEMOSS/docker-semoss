@@ -44,7 +44,7 @@ COPY --from=mavenpuller /opt/semoss-artifacts/ver.txt /opt/semoss-artifacts/ver.
 FROM scratch AS final
 
 ENV JAVA_HOME=/usr/lib/jvm/zulu8
-ENV TOMCAT_HOME=/opt/apache-tomcat-9.0.85
+ENV TOMCAT_HOME=/opt/apache-tomcat-9.0.88
 ENV MAVEN_HOME=/opt/apache-maven-3.8.5
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/python3.9/dist-packages/jep
 ENV PATH=$PATH:${MAVEN_HOME}/bin:${TOMCAT_HOME}/bin:${JAVA_HOME}/bin:/usr/lib/R/bin::/usr/lib/R/pandoc-2.17.1.1/bin:/opt/semoss-artifacts/artifacts/scripts
