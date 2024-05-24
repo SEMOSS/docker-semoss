@@ -36,8 +36,7 @@ RUN wget https://downloads.rclone.org/v1.64.2/rclone-v1.64.2-linux-amd64.rpm \
 RUN cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
 	&& chmod 777 /opt/semoss-artifacts/artifacts/scripts/*.sh
 
-RUN yum install grub \
-	&& fips-mode-setup --enable
+RUN fips-mode-setup --enable
 
 COPY --from=mavenpuller /opt/semosshome /opt/semosshome
 COPY --from=mavenpuller $TOMCAT_HOME/webapps/Monolith $TOMCAT_HOME/webapps/Monolith
