@@ -1,16 +1,16 @@
-#docker build . -t quay.io/semoss/docker:cuda12.2
+#docker build . -t quay.io/semoss/docker:cuda12.5
 
 ARG BASE_REGISTRY=quay.io
 ARG BASE_IMAGE=semoss/docker-tomcat
-ARG BASE_TAG=cuda12.2
+ARG BASE_TAG=cuda12.5
 
 ARG BUILDER_BASE_REGISTRY=quay.io
 ARG BUILDER_BASE_IMAGE=semoss/docker-tomcat
-ARG BUILDER_BASE_TAG=cuda12.2
+ARG BUILDER_BASE_TAG=cuda12.5
 
-ARG R_HOME=/usr/lib/R
-ARG R_LIBS_SITE=/usr/local/lib/R/site-library
-ARG RSTUDIO_PANDOC=/usr/lib/R/pandoc-2.17.1.1/bin
+# ARG R_HOME=/usr/lib/R
+# ARG R_LIBS_SITE=/usr/local/lib/R/site-library
+# ARG RSTUDIO_PANDOC=/usr/lib/R/pandoc-2.17.1.1/bin
 ARG JAVA_HOME=/usr/lib/jvm/zulu8
 ARG TOMCAT_HOME=/opt/apache-tomcat-9.0.85
 ARG MAVEN_HOME=/opt/apache-maven-3.8.5
@@ -65,17 +65,17 @@ COPY --from=mavenpuller /opt/semoss-artifacts/ver.txt /opt/semoss-artifacts/ver.
 FROM scratch AS final
 
 COPY --from=intermediate  / /
-
-ARG R_HOME
-ARG R_LIBS_SITE
-ARG RSTUDIO_PANDOC
+RUN sed -i '80i R_KILL_ON_STARTUP false' /opt/semosshome/RDF_Map.prop
+# ARG R_HOME
+# ARG R_LIBS_SITE
+# ARG RSTUDIO_PANDOC
 ARG JAVA_HOME
 ARG TOMCAT_HOME
 ARG MAVEN_HOME
 
-ENV R_HOME=$R_HOME
-ENV R_LIBS_SITE=$R_LIBS_SITE
-ENV RSTUDIO_PANDOC=$RSTUDIO_PANDOC
+# ENV R_HOME=$R_HOME
+# ENV R_LIBS_SITE=$R_LIBS_SITE
+# ENV RSTUDIO_PANDOC=$RSTUDIO_PANDOC
 ENV JAVA_HOME=$JAVA_HOME
 ENV TOMCAT_HOME=$TOMCAT_HOME
 ENV MAVEN_HOME=$MAVEN_HOME
