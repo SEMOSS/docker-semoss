@@ -79,7 +79,8 @@ ENV RSTUDIO_PANDOC=$RSTUDIO_PANDOC
 ENV JAVA_HOME=$JAVA_HOME
 ENV TOMCAT_HOME=$TOMCAT_HOME
 ENV MAVEN_HOME=$MAVEN_HOME
-ENV PATH=$PATH:$MAVEN_HOME/bin:$TOMCAT_HOME/bin:$JAVA_HOME/bin
+ENV PATH=$PATH:$MAVEN_HOME/bin:$TOMCAT_HOME/bin:$JAVA_HOME/bin:/opt/semoss-artifacts/artifacts/scripts
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib:$R_LIBS_SITE/rJava/jri
 
 WORKDIR /opt/semoss-artifacts/artifacts/scripts
 CMD ["sh", "-c", ". /opt/set_env.env && exec $TOMCAT_HOME/bin/start.sh"]
