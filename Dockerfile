@@ -33,7 +33,7 @@ FROM base as intermediate
 LABEL maintainer="semoss@semoss.org"
 
 ENV PATH=$PATH:/opt/semoss-artifacts/artifacts/scripts
-ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib:$R_LIBS_SITE/rJava/jri
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH
 
 RUN	wget https://downloads.rclone.org/v1.60.0/rclone-v1.60.0-linux-amd64.deb \
 	&& dpkg -i rclone-v1.60.0-linux-amd64.deb \
@@ -79,7 +79,7 @@ ARG MAVEN_HOME
 ENV JAVA_HOME=$JAVA_HOME
 ENV TOMCAT_HOME=$TOMCAT_HOME
 ENV MAVEN_HOME=$MAVEN_HOME
-ENV PATH=$PATH:$MAVEN_HOME/bin:$TOMCAT_HOME/bin:$JAVA_HOME/bin
+ENV PATH=$PATH:$MAVEN_HOME/bin:$TOMCAT_HOME/bin:$JAVA_HOME/bin:/opt/semoss-artifacts/artifacts/scripts
 
 WORKDIR /opt/semoss-artifacts/artifacts/scripts
 CMD ["sh", "-c", ". /opt/set_env.env && exec $TOMCAT_HOME/bin/start.sh"]
