@@ -1,0 +1,23 @@
+name: cuda12.2 Build and Push Docker Image to Quay
+on:
+  push:
+    branches-ignore:
+      - "**" # This effectively excludes the workflow from running on push events
+  schedule:
+    - cron: "30 2 * * *"
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Docker Build
+        run: |
+          export DOCKER_TLS_CERTDIR=""
+          ls -lah
+          pwd
+          echo ${{ secrets.CI_REGISTRY_PASSWORD}} | docker login ${{ vars.CI_REGISTRY }} -u ${{ secrets.CI_REGISTRY_USER}} --password-stdin
+          docker build . -t ${{ vars.CI_REGISTRY }}/semoss/docker:cuda12.5-py
+          docker push  ${{ vars.CI_REGISTRY }}/semoss/docker:cuda12.5-py
