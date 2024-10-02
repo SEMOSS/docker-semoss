@@ -62,7 +62,7 @@ COPY --from=mavenpuller $TOMCAT_HOME/webapps/Monolith $TOMCAT_HOME/webapps/Monol
 COPY --from=mavenpuller $TOMCAT_HOME/webapps/SemossWeb $TOMCAT_HOME/webapps/SemossWeb
 COPY --from=mavenpuller /opt/semoss-artifacts/ver.txt /opt/semoss-artifacts/ver.txt
 
-RUN sed -i '80i R_KILL_ON_STARTUP false' /opt/semosshome/RDF_Map.prop
+RUN sed -i "s:R_KILL_ON_STARTUP.*:R_KILL_ON_STARTUP\tfalse:g" /opt/semosshome/RDF_Map.prop
 
 # FROM scratch AS final
 
