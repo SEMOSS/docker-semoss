@@ -4,7 +4,7 @@ on:
     branches-ignore:
       - "**" # This effectively excludes the workflow from running on push events
   schedule:
-    - cron: "0 2 * * *"
+    - cron: "15 2 * * *"
   workflow_dispatch:
 
 jobs:
