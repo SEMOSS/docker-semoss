@@ -10,8 +10,7 @@ jobs:
   docker-semoss-builds:
     runs-on: self-hosted
     permissions:
-      contents: read
-      actions: write # Grant write permissions to GITHUB_TOKEN for actions
+      contents: write
     strategy:
       matrix:
         branch: ['debian11', 'cuda12.2', 'ubi8-rhel', 'cuda12.5-py']
@@ -32,6 +31,6 @@ jobs:
           echo "triggered at ${date}" > trigger.txt
           git add trigger.txt
           git commit -m "Trigger workflow via commit [skip ci]"
-          git push
+          git push origin HEAD:${{ matrix.branch }}
         env:
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
