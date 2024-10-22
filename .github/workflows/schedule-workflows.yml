@@ -30,7 +30,7 @@ jobs:
         run: |
           echo "triggered at ${date}" > trigger.txt
           git add trigger.txt
-          git commit -m "Trigger workflow via commit [skip ci]"
+          git commit -m "Trigger workflow via commit"
           git push origin HEAD:${{ matrix.branch }}
         env:
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}

@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - debian11
-    paths: 
-      - Dockerfile
   workflow_dispatch:
 
 jobs:
