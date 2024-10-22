@@ -10,54 +10,29 @@ jobs:
   ubi8-build-and-push:
     runs-on: self-hosted
     permissions:
+      contents: read
       actions: write # Grant write permissions to GITHUB_TOKEN for actions
 
     steps:
+      - name: Authenticate gh CLI
+        run: gh auth login --with-token <<< "${{ secrets.PAT_TOKEN }}"
+
       - name: Trigger workflow on debian11 Branch
-        uses: actions/github-script@v6
-        with:
-          script: |
-            await github.rest.actions.createWorkflowDispatch({
-              owner: 'SEMOSS',
-              repo: 'docker-semoss',
-              workflow_id: 'debian11-workflow.yml',
-              ref: 'debian11',
-            });
+        run: gh workflow run 'debian11-workflow.yml' --ref debian11
         env:
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
+
       - name: Trigger workflow on cuda12.2 Branch
-        uses: actions/github-script@v6
-        with:
-          script: |
-            await github.rest.actions.createWorkflowDispatch({
-              owner: 'SEMOSS',
-              repo: 'docker-semoss',
-              workflow_id: 'cuda12.2-workflow.yml',
-              ref: 'cuda12.2',
-            });
+        run: gh workflow run 'cuda12.2-workflow.yml' --ref cuda12.2
         env:
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
+
       - name: Trigger workflow on cuda12.5-py Branch
-        uses: actions/github-script@v6
-        with:
-          script: |
-            await github.rest.actions.createWorkflowDispatch({
-              owner: 'SEMOSS',
-              repo: 'docker-semoss',
-              workflow_id: 'cuda12.5-py-workflow.yml',
-              ref: 'cuda12.5-py',
-            });
+        run: gh workflow run 'cuda12.5-py-workflow.yml' --ref cuda12.5-py
         env:
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
+
       - name: Trigger workflow on ubi8-rhel Branch
-        uses: actions/github-script@v6
-        with:
-          script: |
-            await github.rest.actions.createWorkflowDispatch({
-              owner: 'SEMOSS',
-              repo: 'docker-semoss',
-              workflow_id: 'ubi8-rhel-workflow.yml',
-              ref: 'ubi8-rhel',
-            });
+        run: gh workflow run 'ubi8-rhel-workflow.yml' --ref ubi8-rhel
         env:
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
