@@ -13,6 +13,16 @@ jobs:
       actions: write # Grant write permissions to GITHUB_TOKEN for actions
 
     steps:
+      - name: Trigger workflow on debian11 Branch
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'SEMOSS',
+              repo: 'docker-semoss',
+              workflow_id: 'debian11-workflow.yml',
+              ref: 'debian11',
+            });
       - name: Trigger workflow on ubi8-rhel Branch
         uses: actions/github-script@v6
         with:
