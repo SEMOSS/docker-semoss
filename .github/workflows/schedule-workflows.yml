@@ -27,10 +27,6 @@ jobs:
           echo "triggered at ${date}" > trigger.txt
           git add trigger.txt
           git commit -m "Trigger workflow via commit [skip ci]"
-      
-      - name: Push changes to ${{ matrix.branch }}
-        uses: ad-m/github-push-action@master
-        with:
-          branch: ${{ matrix.branch }}
+          git push
         env:
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
