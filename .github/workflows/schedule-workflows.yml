@@ -23,6 +23,8 @@ jobs:
               workflow_id: 'debian11-workflow.yml',
               ref: 'debian11',
             });
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
       - name: Trigger workflow on cuda12.2 Branch
         uses: actions/github-script@v6
         with:
@@ -33,6 +35,8 @@ jobs:
               workflow_id: 'cuda12.2-workflow.yml',
               ref: 'cuda12.2',
             });
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
       - name: Trigger workflow on cuda12.5-py Branch
         uses: actions/github-script@v6
         with:
@@ -43,6 +47,8 @@ jobs:
               workflow_id: 'cuda12.5-py-workflow.yml',
               ref: 'cuda12.5-py',
             });
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
       - name: Trigger workflow on ubi8-rhel Branch
         uses: actions/github-script@v6
         with:
@@ -53,3 +59,5 @@ jobs:
               workflow_id: 'ubi8-rhel-workflow.yml',
               ref: 'ubi8-rhel',
             });
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
