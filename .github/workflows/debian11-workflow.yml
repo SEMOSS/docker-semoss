@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - debian11
-    branches-ignore:
-      - "**" # This effectively excludes the workflow from running on push events
   workflow_dispatch:
 
 jobs:
