@@ -7,32 +7,30 @@ on:
     - cron: "0 2 * * *"
   workflow_dispatch:
 jobs:
-  ubi8-build-and-push:
+  docker-semoss-builds:
     runs-on: self-hosted
     permissions:
       contents: read
       actions: write # Grant write permissions to GITHUB_TOKEN for actions
+    strategy:
+      matrix:
+        branch: ['debian11', 'cuda12.2', 'ubi8-rhel', 'cuda12.5-py']
 
     steps:
-      - name: Authenticate gh CLI
-        run: gh auth login --with-token <<< "${{ secrets.PAT_TOKEN }}"
-
-      - name: Trigger workflow on debian11 Branch
-        run: gh workflow run 'debian11-workflow.yml' --ref debian11
-        env:
-          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
-
-      - name: Trigger workflow on cuda12.2 Branch
-        run: gh workflow run 'cuda12.2-workflow.yml' --ref cuda12.2
-        env:
-          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
-
-      - name: Trigger workflow on cuda12.5-py Branch
-        run: gh workflow run 'cuda12.5-py-workflow.yml' --ref cuda12.5-py
-        env:
-          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
-
-      - name: Trigger workflow on ubi8-rhel Branch
-        run: gh workflow run 'ubi8-rhel-workflow.yml' --ref ubi8-rhel
+      - name: checkout ${{ matrix.branch }} branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.branch }}
+      
+      - name: commit on ${{ matrix.branch }}
+        run: |
+          echo "triggered at ${date}" > trigger.txt
+          git add trigger.txt
+          git commit -m "Trigger workflow via commit [skip ci]"
+      
+      - name: Push changes to ${{ matrix.branch }}
+        uses: ad-m/github-push-action@master
+        with:
+          branch: ${{ matrix.branch }}
         env:
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
