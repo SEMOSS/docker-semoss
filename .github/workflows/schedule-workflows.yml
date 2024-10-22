@@ -1,0 +1,45 @@
+name: Schedule workflows on Other Branches
+on:
+  push:
+    branches-ignore:
+      - "**" # This effectively excludes the workflow from running on push events
+  schedule:
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+jobs:
+  ubi8-build-and-push:
+    runs-on: self-hosted
+    permissions:
+      actions: write # Grant write permissions to GITHUB_TOKEN for actions
+
+    steps:
+      - name: Trigger workflow on ubi8-rhel Branch
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'SEMOSS',
+              repo: 'docker-semoss',
+              workflow_id: 'ubi8-rhel-workflow.yml',
+              ref: 'ubi8-rhel',
+            });
+      - name: Trigger workflow on cuda12.2 Branch
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'SEMOSS',
+              repo: 'docker-semoss',
+              workflow_id: 'cuda12.2-workflow.yml',
+              ref: 'cuda12.2',
+            });
+      - name: Trigger workflow on cuda12.5-py Branch
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'SEMOSS',
+              repo: 'docker-semoss',
+              workflow_id: 'cuda12.5-py-workflow.yml',
+              ref: 'cuda12.5-py',
+            });
