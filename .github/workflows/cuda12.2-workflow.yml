@@ -1,6 +1,8 @@
 name: Cuda12.2 workflow
 on:
   push:
+    branches:
+      - cuda12.2
     branches-ignore:
       - "**" # This effectively excludes the workflow from running on push events
   workflow_dispatch:
