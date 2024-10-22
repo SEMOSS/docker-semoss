@@ -1,4 +1,4 @@
-name: Docker Semoss Builds and Push Docker Image to Quay
+name: Debian11 Workflow
 on:
   push:
     branches-ignore:

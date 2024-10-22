@@ -23,16 +23,6 @@ jobs:
               workflow_id: 'debian11-workflow.yml',
               ref: 'debian11',
             });
-      - name: Trigger workflow on ubi8-rhel Branch
-        uses: actions/github-script@v6
-        with:
-          script: |
-            await github.rest.actions.createWorkflowDispatch({
-              owner: 'SEMOSS',
-              repo: 'docker-semoss',
-              workflow_id: 'ubi8-rhel-workflow.yml',
-              ref: 'ubi8-rhel',
-            });
       - name: Trigger workflow on cuda12.2 Branch
         uses: actions/github-script@v6
         with:
@@ -52,4 +42,14 @@ jobs:
               repo: 'docker-semoss',
               workflow_id: 'cuda12.5-py-workflow.yml',
               ref: 'cuda12.5-py',
+            });
+      - name: Trigger workflow on ubi8-rhel Branch
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'SEMOSS',
+              repo: 'docker-semoss',
+              workflow_id: 'ubi8-rhel-workflow.yml',
+              ref: 'ubi8-rhel',
             });
