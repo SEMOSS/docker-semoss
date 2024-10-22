@@ -28,7 +28,7 @@ jobs:
 
       - name: commit on ${{ matrix.branch }}
         run: |
-          echo "triggered at ${date}" > trigger.txt
+          echo "triggered at $(date +'%Y-%m-%dT%H:%M:%S')" > trigger.txt
           git add trigger.txt
           git commit -m "Trigger workflow via commit"
           git push origin HEAD:${{ matrix.branch }}
