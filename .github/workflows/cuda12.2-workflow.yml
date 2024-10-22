@@ -1,10 +1,8 @@
-name: Docker Semoss Builds and Push Docker Image to Quay
+name: Cuda12.2 workflow
 on:
   push:
     branches-ignore:
       - "**" # This effectively excludes the workflow from running on push events
-  schedule:
-    - cron: "0 2 * * *"
   workflow_dispatch:
 
 jobs:
