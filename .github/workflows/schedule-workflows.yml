@@ -24,9 +24,9 @@ jobs:
 
       - name: configure Git
         run: |
-          git config --global user.name ${{ env.USER_NAME}}
-          git config --global user.email ${{ env.USER_EMAIL}}
-          
+          git config --global user.name "${{ env.USER_NAME}}"
+          git config --global user.email "${{ env.USER_EMAIL}}"
+
       - name: commit on ${{ matrix.branch }}
         run: |
           echo "triggered at ${date}" > trigger.txt
