@@ -2,7 +2,7 @@ name: Ubi8-rhel workflow
 on:
   push:
     branches:
-      - cuda12.5-py
+      - ubi8-rhel
   workflow_dispatch:
 
 jobs:
