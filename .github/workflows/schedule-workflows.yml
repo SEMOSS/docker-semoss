@@ -22,6 +22,10 @@ jobs:
           ref: ${{ matrix.branch }}
           persist-credentials: false # Disable default GITHUB_TOKEN credentials
 
+      - name: Set up Git Authentication
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/SEMOSS/docker-semoss.git
+
       - name: configure Git
         run: |
           git config --global user.name "${{ vars.USER_NAME }}"
