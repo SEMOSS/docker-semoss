@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - cuda12.5-py
+    paths:
+      - 'trigger.txt'
   workflow_dispatch:
 
 jobs:
