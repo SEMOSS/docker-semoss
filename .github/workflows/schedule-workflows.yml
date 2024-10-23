@@ -20,6 +20,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ matrix.branch }}
+          persist-credentials: false # Disable default GITHUB_TOKEN credentials
 
       - name: configure Git
         run: |
@@ -33,4 +34,4 @@ jobs:
           git commit -m "Trigger workflow via commit"
           git push origin HEAD:${{ matrix.branch }}
         env:
-          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
