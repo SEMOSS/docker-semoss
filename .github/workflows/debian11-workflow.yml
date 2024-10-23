@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - debian11
+    paths:
+      - 'trigger.txt'
   workflow_dispatch:
 
 jobs:
