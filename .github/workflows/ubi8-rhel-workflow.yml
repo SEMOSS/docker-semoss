@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - ubi8-rhel
+    paths:
+      - 'trigger.txt'
   workflow_dispatch:
 
 jobs:
