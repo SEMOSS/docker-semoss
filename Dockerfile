@@ -37,11 +37,10 @@ ARG LD_LIBRARY_PATH
 ENV PATH=$PATH:/opt/semoss-artifacts/artifacts/scripts
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH
 
-RUN	wget https://downloads.rclone.org/v1.60.0/rclone-v1.60.0-linux-amd64.deb \
-	&& dpkg -i rclone-v1.60.0-linux-amd64.deb \
-	&& apt-get install -f \
-	&& rm rclone-v1.60.0-linux-amd64.deb \
-	&& chmod 777 /usr/bin/rclone \
+RUN	apt update -y \
+	&& apt-get install -y curl lsof \
+	&& curl https://rclone.org/install.sh | bash \
+	&& chmod 755 /usr/bin/rclone \
 	&& mkdir /opt/semosshome \
 	&& mkdir $TOMCAT_HOME/webapps/Monolith \
 	&& mkdir $TOMCAT_HOME/webapps/SemossWeb \
