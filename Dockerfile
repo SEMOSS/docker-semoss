@@ -16,7 +16,7 @@ FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS base
 FROM ${BUILDER_BASE_REGISTRY}/${BUILDER_BASE_IMAGE}:${BUILDER_BASE_TAG} as mavenpuller
 
 RUN apt-get update -y \
-	&& apt-get install -y lsof \
+	&& apt-get install -y unzip lsof \
 	&& mkdir /opt/semosshome \
 	&& cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
 	&& chmod 777 /opt/semoss-artifacts/artifacts/scripts/*.sh \
@@ -33,7 +33,7 @@ ENV PATH=$PATH:/opt/semoss-artifacts/artifacts/scripts
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH
 
 RUN	apt update -y \
-	&& apt-get install -y curl lsof \
+	&& apt-get install -y curl unzip lsof \
 	&& curl https://rclone.org/install.sh | bash \
 	&& chmod 755 /usr/bin/rclone \
 	&& mkdir /opt/semosshome \
