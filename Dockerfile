@@ -2,18 +2,13 @@
 
 ARG BASE_REGISTRY=quay.io
 ARG BASE_IMAGE=semoss/docker-tomcat
-ARG BASE_TAG=debian11-1
+ARG BASE_TAG=debian12-py
 
 ARG BUILDER_BASE_REGISTRY=quay.io
 ARG BUILDER_BASE_IMAGE=semoss/docker-tomcat
-ARG BUILDER_BASE_TAG=debian11-1
+ARG BUILDER_BASE_TAG=debian12-py
 
 ARG JAVA_HOME=/usr/lib/jvm/zulu8
-ARG TOMCAT_HOME=/opt/apache-tomcat-9.0.88
-ARG R_HOME=/usr/lib/R
-ARG R_LIBS_SITE=/usr/local/lib/R/site-library
-ARG RSTUDIO_PANDOC=/usr/lib/R/pandoc-2.17.1.1/bin
-ARG LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib:$R_LIBS_SITE/rJava/jri
 
 
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS base
@@ -44,7 +39,7 @@ RUN	apt update -y \
 	&& mkdir /opt/semosshome \
 	&& mkdir $TOMCAT_HOME/webapps/Monolith \
 	&& mkdir $TOMCAT_HOME/webapps/SemossWeb \
-	&& echo "export LD_PRELOAD=/usr/lib/python3.9/config-3.9-x86_64-linux-gnu/libpython3.9.so" >> $TOMCAT_HOME/bin/setenv.sh \
+	&& echo "export LD_PRELOAD=/usr/lib/python3.11/config-3.11-x86_64-linux-gnu/libpython3.11.so" >> $TOMCAT_HOME/bin/setenv.sh \
 	&& cp $JAVA_HOME/lib/tools.jar $TOMCAT_HOME/lib \
 	&& sed -i "s/tomcat.util.scan.StandardJarScanFilter.jarsToSkip=/tomcat.util.scan.StandardJarScanFilter.jarsToSkip=*.jar,/g" $TOMCAT_HOME/conf/catalina.properties;
 
@@ -79,6 +74,6 @@ COPY --from=mavenpuller /opt/semoss-artifacts/ver.txt /opt/semoss-artifacts/ver.
 # ENV R_LIBS_SITE=$R_LIBS_SITE
 # ENV RSTUDIO_PANDOC=$RSTUDIO_PANDOC
 
-ENV PATH=$PATH:/opt/apache-maven-3.8.5/bin:$TOMCAT_HOME/bin:$JAVA_HOME/bin:/usr/lib/R/bin::/usr/lib/R/pandoc-2.17.1.1/bin:/opt/semoss-artifacts/artifacts/scripts
+ENV PATH=$PATH:/opt/apache-maven-3.8.5/bin:$TOMCAT_HOME/bin:$JAVA_HOME/bin::/opt/semoss-artifacts/artifacts/scripts
 WORKDIR /opt/semoss-artifacts/artifacts/scripts
 CMD ["bash", "-c", "exec $TOMCAT_HOME/bin/start.sh" ]
