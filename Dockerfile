@@ -1,4 +1,4 @@
-#docker build . -t quay.io/semoss/docker:debian11
+#docker build . -t quay.io/semoss/docker:debian12-py
 
 ARG BASE_REGISTRY=quay.io
 ARG BASE_IMAGE=semoss/docker-tomcat
