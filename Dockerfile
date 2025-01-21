@@ -52,5 +52,11 @@ ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/python3.9/dist-packages/jep
 ENV PATH=$PATH:${MAVEN_HOME}/bin:${TOMCAT_HOME}/bin:${JAVA_HOME}/bin:/usr/lib/R/bin::/usr/lib/R/pandoc-2.17.1.1/bin:/opt/semoss-artifacts/artifacts/scripts
 
 COPY --from=intermediate  / /
+
+RUN useradd -u 1001 -r -g 0 -d ${HOME} -s /bin/bash -c "Default Application User" default \ 
+	&& chown -R 1001:0 ${HOME}
+
+RUN chown -R 1001:0 /opt
+
 WORKDIR /opt/semoss-artifacts/artifacts/scripts
 CMD ["sh", "-c", "source /opt/set_env.env && exec $TOMCAT_HOME/bin/start.sh"]
