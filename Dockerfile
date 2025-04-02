@@ -9,7 +9,7 @@ ARG BUILDER_BASE_IMAGE=semoss/docker-tomcat
 ARG BUILDER_BASE_TAG=debian11-1
 
 ARG JAVA_HOME=/usr/lib/jvm/zulu8
-ARG TOMCAT_HOME=/opt/apache-tomcat-9.0.98
+ARG TOMCAT_HOME=/opt/apache-tomcat-9.0.102
 ARG R_HOME=/usr/lib/R
 ARG R_LIBS_SITE=/usr/local/lib/R/site-library
 ARG RSTUDIO_PANDOC=/usr/lib/R/pandoc-2.17.1.1/bin
