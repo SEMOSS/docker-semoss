@@ -1,0 +1,20 @@
+name: Private-github-test
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+on:
+  workflow_dispatch:
+  
+jobs:
+  build:
+
+    runs-on: gcp-private
+    # container:
+    #   image: quay.io/semoss/test-quay:ubuntu-dind
+
+    steps:
+      - name: test runner
+        run: echo "Hello from GCP"
