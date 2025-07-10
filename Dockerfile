@@ -61,10 +61,6 @@ RUN wget https://downloads.rclone.org/v1.64.2/rclone-v1.64.2-linux-amd64.rpm \
 	&& mkdir $TOMCAT_HOME/webapps/Monolith \
 	&& mkdir $TOMCAT_HOME/webapps/SemossWeb \
 	&& echo "export LD_PRELOAD=/usr/lib64/libpython3.9.so" >> $TOMCAT_HOME/bin/setenv.sh \
-	&& echo FILES=$(ls -als $TOMCAT_HOME/) echo "FILES=$FILES" > files_in_tomcatHome.txt \
-	&& cat files_in_tomcatHome.txt \
-	&& echo FILES=$(ls -als $TOMCAT_HOME/conf/) echo "FILES=$FILES" > files_in_tomcatHome.txt \
-    && cat files_in_tomcatHome.txt \
 	&& sed -i "s/tomcat.util.scan.StandardJarScanFilter.jarsToSkip=/tomcat.util.scan.StandardJarScanFilter.jarsToSkip=*.jar,/g" $TOMCAT_HOME/conf/catalina.properties;
 	# Removing step to copy JAVA_HOME/lib/tools.jar since this is not present in ZULU java 21
 	# && cp $JAVA_HOME/lib/tools.jar $TOMCAT_HOME/lib \
