@@ -1,3 +1,4 @@
+# Based on quay.io/semoss/docker-tomcat:cuda12.5
 #docker build . -t quay.io/semoss/docker:cuda12.5
 
 ARG BASE_REGISTRY=quay.io
@@ -11,14 +12,23 @@ ARG BUILDER_BASE_TAG=cuda12.5
 # ARG R_HOME=/usr/lib/R
 # ARG R_LIBS_SITE=/usr/local/lib/R/site-library
 # ARG RSTUDIO_PANDOC=/usr/lib/R/pandoc-2.17.1.1/bin
-ARG JAVA_HOME=/usr/lib/jvm/zulu8
-ARG TOMCAT_HOME=/opt/apache-tomcat-9.0.102
+
+# JAVA and TOMCAT default versions
+ARG TOMCAT_VERSION=9.0.107
+ARG JAVA_HOME=/usr/lib/jvm/zulu21
+ARG TOMCAT_HOME=/opt/apache-tomcat-${TOMCAT_VERSION}
 ARG MAVEN_HOME=/opt/apache-maven-3.8.5
 
 
-FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} as base
+FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS base
 
-FROM ${BUILDER_BASE_REGISTRY}/${BUILDER_BASE_IMAGE}:${BUILDER_BASE_TAG} as mavenpuller
+FROM ${BUILDER_BASE_REGISTRY}/${BUILDER_BASE_IMAGE}:${BUILDER_BASE_TAG} AS mavenpuller
+
+# Tomcat  
+ARG TOMCAT_VERSION
+ARG TOMCAT_HOME=/opt/apache-tomcat-${TOMCAT_VERSION}
+ENV TOMCAT_VERSION=${TOMCAT_VERSION}
+ENV TOMCAT_HOME=${TOMCAT_HOME}
 
 RUN apt-get update -y \
 	&& apt-get install -y curl lsof \
@@ -28,7 +38,13 @@ RUN apt-get update -y \
 	&& /opt/semoss-artifacts/artifacts/scripts/update_latest_dev.sh \
 	&& chmod 777 /opt/semosshome/config/Chromedriver/*
 
-FROM base as intermediate
+FROM base AS intermediate
+
+# Tomcat  
+ARG TOMCAT_VERSION
+ARG TOMCAT_HOME=/opt/apache-tomcat-${TOMCAT_VERSION}
+ENV TOMCAT_VERSION=${TOMCAT_VERSION}
+ENV TOMCAT_HOME=${TOMCAT_HOME}
 
 LABEL maintainer="semoss@semoss.org"
 
@@ -44,8 +60,10 @@ RUN	wget https://downloads.rclone.org/v1.60.0/rclone-v1.60.0-linux-amd64.deb \
 	&& mkdir $TOMCAT_HOME/webapps/Monolith \
 	&& mkdir $TOMCAT_HOME/webapps/SemossWeb \
 	&& echo "export LD_PRELOAD=/usr/lib/python3.10/config-3.10-x86_64-linux-gnu/libpython3.10.so" >> $TOMCAT_HOME/bin/setenv.sh \
-	&& cp $JAVA_HOME/lib/tools.jar $TOMCAT_HOME/lib \
 	&& sed -i "s/tomcat.util.scan.StandardJarScanFilter.jarsToSkip=/tomcat.util.scan.StandardJarScanFilter.jarsToSkip=*.jar,/g" $TOMCAT_HOME/conf/catalina.properties;
+	# Removing step to copy JAVA_HOME/lib/tools.jar since this is not present in ZULU java 21
+	# && cp $JAVA_HOME/lib/tools.jar $TOMCAT_HOME/lib \
+	
 
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
 	&& echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list \
