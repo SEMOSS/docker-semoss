@@ -8,6 +8,8 @@ FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} as base
 
 FROM base as mavenpuller
 
+ENV SEMOSS_VERSION=4.3.2
+
 RUN yum install -y curl lsof \
 	&& mkdir /opt/semosshome \
 	&& cd /opt && git clone https://github.com/SEMOSS/semoss-artifacts \
